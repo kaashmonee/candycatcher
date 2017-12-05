@@ -65,10 +65,11 @@ def timerFired(data):
             data.fruits.pop(data.fruits.index(fruit))
 
     # after this many milliseconds, create another fruit
-    if data.timeBeforeNextFruit == 0:
+    if data.timeBeforeNextFruit <= 0:
         data.fruits.append(Fruit("apple"))
         data.timeBeforeNextFruit = random.randint(0, 5000)
 
+    print("time before next fruit", data.timeBeforeNextFruit)
     data.timeBeforeNextFruit -= 10
 
 
@@ -131,4 +132,4 @@ def run(width=300, height=300):
     root.mainloop()  # blocks until window is closed
     print("bye!")
 
-run(400, 200)
+run(700, 700)

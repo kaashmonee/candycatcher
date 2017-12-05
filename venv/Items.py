@@ -21,7 +21,7 @@ class Fruit:
 
         # initializing x and y values
         self.vx = random.randint(2, 10)
-        self.vy = -50
+        self.vy = -100
 
     def drawFruit(self, canvas):
         # getting the image from the path and drawing the image.
