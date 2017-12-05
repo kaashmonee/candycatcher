@@ -4,6 +4,7 @@
 
 from tkinter import *
 from Items import Fruit
+import random
 import os
 
 ####################################
@@ -14,18 +15,22 @@ def init(data):
     data.pathDicts = {"apple":"./assets/apple.png"}
     # load data.xyz as appropriate
     data.fruits = []
+    data.level = 0
+    # the frequency of the fruit changes with the level
+    data.levelFruitFrequency = {0: 5000, 1: 4000, 2: 3000, 3: 1000}
     data.mode = "splashScreen"
     data.score = 0
+    data.timePassed = 0
     # initializing gravity
     data.g = 9.8
 
     # delta t
-    data.dt = 0.3
+    data.dt = 0.2
 
 
     # time to wait before shooting next fruit
-    data.timeBeforeNextFruit = 1
-    data.fruits.append(Fruit("apple", 10, 250))
+    data.timeBeforeNextFruit = data.levelFruitFrequency[data.level]
+    # data.fruits.append(Fruit("apple", data.height + 50, random.r))
 
 
 
@@ -52,13 +57,22 @@ def timerFired(data):
         fruit.vy += dv
         dy = fruit.vy * data.dt
         fruit.y += dy
+        print("fruit x:", fruit.x, "fruit y:", fruit.y)
 
         # if the fruit is below the window and the fruit is falling down, get rid
         # of the fruit
         if fruit.y > data.height and fruit.vy > 0:
             data.fruits.pop(data.fruits.index(fruit))
 
-        print(data.fruits)
+    # after this many milliseconds, create another fruit
+    if data.timeBeforeNextFruit == 0:
+        data.fruits.append(Fruit("apple"))
+        data.timeBeforeNextFruit = random.randint(0, 5000)
+
+    data.timeBeforeNextFruit -= 10
+
+
+    print(data.fruits)
 
 def redrawAll(canvas, data):
     # draw in canvas
@@ -101,7 +115,7 @@ def run(width=300, height=300):
     data = Struct()
     data.width = width
     data.height = height
-    data.timerDelay = 1 # milliseconds
+    data.timerDelay = 10 # milliseconds
     init(data)
     # create the root and the canvas
     root = Tk()
