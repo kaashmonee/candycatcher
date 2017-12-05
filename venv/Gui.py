@@ -45,14 +45,18 @@ def keyPressed(event, data):
 
 def timerFired(data):
     # randomize the time before the next fruit here
-    # data.fruits.append(Fruit())
-    # print("vy:", fruit.vy)
-    # dt = 0.5
+
     for fruit in data.fruits:
         dv = 9.8 * data.dt
         fruit.vy += dv
         dy = fruit.vy * data.dt
         fruit.y += dy
+
+        # if the fruit falls below the window, get rid of the fruit from the list
+        if fruit.y > data.height:
+            data.fruits.pop(data.fruits.index(fruit))
+
+        print(data.fruits)
 
     pass
 
