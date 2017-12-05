@@ -41,11 +41,18 @@ def keyPressed(event, data):
 def timerFired(data):
     # randomize the time before the next fruit here
     # data.fruits.append(Fruit())
+    print("vy:", data.fruit.vy)
+    dt = 0.5
+    dv = 9.8 * dt
+    data.fruit.vy += dv
+    dy = data.fruit.vy * dt
+    data.fruit.y += dy
+
     pass
 
 def redrawAll(canvas, data):
     # draw in canvas
-    print("data.fruit", data.fruit)
+    # print("data.fruit", data.fruit)
     canvas.create_rectangle(0, 0, 10, 10)
     data.fruit.drawFruit(canvas)
     pass
@@ -81,7 +88,7 @@ def run(width=300, height=300):
     data = Struct()
     data.width = width
     data.height = height
-    data.timerDelay = 100 # milliseconds
+    data.timerDelay = 2 # milliseconds
     init(data)
     # create the root and the canvas
     root = Tk()

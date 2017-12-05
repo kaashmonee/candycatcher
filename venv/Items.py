@@ -16,13 +16,13 @@ class Fruit:
 
         # initializing x and y values
         self.vx = random.randint(2, 10)
-        self.vy = random.randint(2, 10)
+        self.vy = random.randint(-100, -50)
 
     def drawFruit(self, canvas):
         # getting the image from the path and drawing the image.
         self.image = PhotoImage(file = self.imagePath)
-        self.image.subsample(10)
-        canvas.create_image((self.x, self.y), image=self.image, anchor=NW)
+        self.image = self.image.subsample(30, 30)
+        canvas.create_image(self.x, self.y, image=self.image, anchor=NW)
 
 
 
