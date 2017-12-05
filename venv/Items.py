@@ -1,4 +1,5 @@
 import random
+from tkinter import *
 
 class Fruit:
     # fruit class for the game
@@ -17,7 +18,10 @@ class Fruit:
         self.vx = random.randint(2, 10)
         self.vy = random.randint(2, 10)
 
-    def timerFired(self):
-        
+    def drawFruit(self, canvas):
+        # getting the image from the path and drawing the image.
+        image = PhotoImage(file = self.imagePath)
+        canvas.create_image(self.x, self.y, image=image, anchor=NW)
+
 
 
