@@ -19,13 +19,13 @@ def init(data):
     # initializing gravity
     data.g = 9.8
 
-    # time differential
-    data.dt = 0.5
+    # delta t
+    data.dt = 0.3
 
 
     # time to wait before shooting next fruit
     data.timeBeforeNextFruit = 1
-    data.fruits.append(Fruit(data.pathDicts["apple"], 10, 10))
+    data.fruits.append(Fruit("apple", 10, 250))
 
 
 
@@ -47,24 +47,27 @@ def timerFired(data):
     # randomize the time before the next fruit here
 
     for fruit in data.fruits:
-        dv = 9.8 * data.dt
+        # this works because i'm changing the actual fruit object
+        dv = data.g * data.dt
         fruit.vy += dv
         dy = fruit.vy * data.dt
         fruit.y += dy
 
-        # if the fruit falls below the window, get rid of the fruit from the list
-        if fruit.y > data.height:
+        # if the fruit is below the window and the fruit is falling down, get rid
+        # of the fruit
+        if fruit.y > data.height and fruit.vy > 0:
             data.fruits.pop(data.fruits.index(fruit))
 
         print(data.fruits)
 
-    pass
-
 def redrawAll(canvas, data):
     # draw in canvas
     # print("data.fruit", data.fruit)
+    # just testing to see that the canvas was working
     canvas.create_rectangle(0, 0, 10, 10)
-    for fruit in data.fruits: fruit.drawFruit(canvas)
+    # draw all the fruits
+    for fruit in data.fruits:
+        fruit.drawFruit(canvas)
     pass
 
 ####################################
@@ -98,7 +101,7 @@ def run(width=300, height=300):
     data = Struct()
     data.width = width
     data.height = height
-    data.timerDelay = 2 # milliseconds
+    data.timerDelay = 1 # milliseconds
     init(data)
     # create the root and the canvas
     root = Tk()
