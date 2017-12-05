@@ -11,6 +11,7 @@ import os
 ####################################
 
 def init(data):
+    data.pathDicts = {"apple":"./assets/apple.png"}
     # load data.xyz as appropriate
     data.fruits = []
     data.mode = "splashScreen"
@@ -18,9 +19,13 @@ def init(data):
     # initializing gravity
     data.g = 9.8
 
+    # time differential
+    data.dt = 0.5
+
+
     # time to wait before shooting next fruit
     data.timeBeforeNextFruit = 1
-    data.fruit = Fruit("./assets/apple.png", 10, 10)
+    data.fruits.append(Fruit(data.pathDicts["apple"], 10, 10))
 
 
 
@@ -41,12 +46,13 @@ def keyPressed(event, data):
 def timerFired(data):
     # randomize the time before the next fruit here
     # data.fruits.append(Fruit())
-    print("vy:", data.fruit.vy)
-    dt = 0.5
-    dv = 9.8 * dt
-    data.fruit.vy += dv
-    dy = data.fruit.vy * dt
-    data.fruit.y += dy
+    # print("vy:", fruit.vy)
+    # dt = 0.5
+    for fruit in data.fruits:
+        dv = 9.8 * data.dt
+        fruit.vy += dv
+        dy = fruit.vy * data.dt
+        fruit.y += dy
 
     pass
 
@@ -54,7 +60,7 @@ def redrawAll(canvas, data):
     # draw in canvas
     # print("data.fruit", data.fruit)
     canvas.create_rectangle(0, 0, 10, 10)
-    data.fruit.drawFruit(canvas)
+    for fruit in data.fruits: fruit.drawFruit(canvas)
     pass
 
 ####################################
