@@ -4,7 +4,7 @@ from tkinter import *
 class Fruit:
     # fruit class for the game
 
-    def __init__(self, imagePath):
+    def __init__(self, imagePath, x=0, y=0):
         # initializing the fruit image and the path of the fruit
         self.imagePath = imagePath
 
@@ -12,7 +12,7 @@ class Fruit:
         self.width, self.height = 100, 100
 
         # initializing starting x and y values
-        self.x, self.y = 0, 0
+        self.x, self.y = x, y
 
         # initializing x and y values
         self.vx = random.randint(2, 10)
@@ -20,8 +20,9 @@ class Fruit:
 
     def drawFruit(self, canvas):
         # getting the image from the path and drawing the image.
-        image = PhotoImage(file = self.imagePath)
-        canvas.create_image(self.x, self.y, image=image, anchor=NW)
+        self.image = PhotoImage(file = self.imagePath)
+        self.image.subsample(10)
+        canvas.create_image((self.x, self.y), image=self.image, anchor=NW)
 
 
 

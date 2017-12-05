@@ -3,6 +3,8 @@
 # Barebones tkinter animation starter code taken from 112 website
 
 from tkinter import *
+from Items import Fruit
+import os
 
 ####################################
 # customize these functions
@@ -10,6 +12,22 @@ from tkinter import *
 
 def init(data):
     # load data.xyz as appropriate
+    data.fruits = []
+    data.mode = "splashScreen"
+    data.score = 0
+    # initializing gravity
+    data.g = 9.8
+
+    # time to wait before shooting next fruit
+    data.timeBeforeNextFruit = 1
+    data.fruit = Fruit("./assets/apple.png", 10, 10)
+
+
+
+
+
+    pass
+
 
 
 def mousePressed(event, data):
@@ -21,10 +39,15 @@ def keyPressed(event, data):
     pass
 
 def timerFired(data):
+    # randomize the time before the next fruit here
+    # data.fruits.append(Fruit())
     pass
 
 def redrawAll(canvas, data):
     # draw in canvas
+    print("data.fruit", data.fruit)
+    canvas.create_rectangle(0, 0, 10, 10)
+    data.fruit.drawFruit(canvas)
     pass
 
 ####################################
@@ -32,6 +55,7 @@ def redrawAll(canvas, data):
 ####################################
 
 def run(width=300, height=300):
+    # print(os.getcwd())
     def redrawAllWrapper(canvas, data):
         canvas.delete(ALL)
         canvas.create_rectangle(0, 0, data.width, data.height,
