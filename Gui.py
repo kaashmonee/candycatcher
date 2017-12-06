@@ -24,6 +24,9 @@ import mathematics as mat
 def init(data):
     # image paths for all the items
     data.pathDicts = {"apple": "./assets/apple.png"}
+    # dictionary for different colors and their hex values
+    data.colors = {"cyan": "#00FFFF", "purple": "#6206d0",
+                   "yellow": "#f0ff2e"}
     
 
     # list of all the fruits
@@ -133,6 +136,16 @@ def splashScreenTimerFired(data):
 
 def splashScreenRedrawAll(canvas, data):
     canvas.create_rectangle(0, 0, data.width, data.height, fill="black")
+    data.image = PhotoImage(file="./assets/welcometext.png")
+    # downsizes the image
+    data.image = data.image.subsample(2, 1)
+    canvas.create_image(data.width/2, 100, image = data.image, anchor=CENTER)
+    # creating the help and start menu
+    canvas.create_rectangle(0, data.height/2, data.width/2, data.height,
+                            fill=data.colors["purple"])
+    canvas.create_rectangle(data.width/2, data.height/2, data.width, data.height,
+                            fill=data.colors["yellow"])
+    # playGameTimerFired(data)
     playGameRedrawAll(canvas, data)
     
 
