@@ -92,7 +92,7 @@ class MouthCircle:
 
         ratio = average / horizontalDistance
 
-        if ratio < 0.5:
+        if ratio < 0.3:
             return False
         else:
             return True
