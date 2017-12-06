@@ -56,14 +56,6 @@ def init(data):
     data.predictor = dlib.shape_predictor(LANDMARKS_CLASSIFIER)
 
 
-
-
-
-
-
-    pass
-
-
 def mousePressed(event, data):
     # use event.x and event.y
     if data.mode == "splashScreen":
@@ -283,6 +275,7 @@ def run(width=300, height=300):
     init(data)
     # create the root and the canvas
     root = Tk()
+    # setting background
     canvas = Canvas(root, width=data.width, height=data.height)
     canvas.pack()
     # set up events
