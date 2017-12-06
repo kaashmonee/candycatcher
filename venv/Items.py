@@ -23,7 +23,7 @@ class Fruit:
         self.x, self.y = x, y
 
         # initializing x and y values
-        self.vx = random.randint(2, 10)
+        self.vx = random.randint(-20, 20)
         self.vy = -100
 
     def drawFruit(self, canvas):

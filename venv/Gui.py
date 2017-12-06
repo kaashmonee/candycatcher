@@ -15,10 +15,10 @@ def init(data):
     data.pathDicts = {"apple":"./assets/apple.png"}
     # load data.xyz as appropriate
     data.fruits = []
-    data.level = 0
+    data.level = 3
     # the frequency of the fruit changes with the level
     data.levelFruitFrequency = {0: 3000, 1: 4000, 2: 3000, 3: 1000}
-    data.mode = "splashScreen"
+    data.mode = "playGame"
     data.score = 0
     data.timePassed = 0
     # initializing gravity
@@ -67,6 +67,46 @@ def timerFired(data):
     if data.mode == "gameOver":
         gameOverTimerFired(data)
 
+def redrawAll(canvas, data):
+    if data.mode == "splashScreen":
+        splashScreenRedrawAll(canvas, data)
+    if data.mode == "playGame":
+        playGameRedrawAll(canvas, data)
+    if data.mode == "gameOver":
+        gameOverRedrawAll(canvas, data)
+
+
+
+
+##################################
+# Splash screen mode
+##################################
+def splashScreenMousePressed(event, data):
+    pass
+
+def splashScreenKeyPressed(event, data):
+    pass
+
+def splashScreenTimerFired(data):
+    pass
+
+def splashScreenRedrawAll(canvas, data):
+    pass
+
+
+
+
+##################################
+# Play game mode
+##################################
+
+def playGameMousePressed(event, data):
+    pass
+
+def playGameKeyPressed(event, data):
+    pass
+
+
 
 def playGameTimerFired(data):
     # randomize the time before the next fruit here
@@ -74,10 +114,13 @@ def playGameTimerFired(data):
     # making items fall w/gravity
     for fruit in data.fruits:
         # this works because i'm changing the actual fruit object
-        dv = data.g * data.dt
-        fruit.vy += dv
+        dvy = data.g * data.dt
+        fruit.vy += dvy
         dy = fruit.vy * data.dt
+        dx = fruit.vx * data.dt
         fruit.y += dy
+        fruit.x += dx
+        
         print("fruit x:", fruit.x, "fruit y:", fruit.y)
 
         # if the fruit is below the window and the fruit is falling down, get rid
@@ -100,7 +143,7 @@ def playGameTimerFired(data):
 
     print(data.fruits)
 
-def redrawAll(canvas, data):
+def playGameRedrawAll(canvas, data):
     # draw in canvas
     # print("data.fruit", data.fruit)
     # just testing to see that the canvas was working
@@ -113,6 +156,27 @@ def redrawAll(canvas, data):
     # creating text to update the score
     canvas.create_text(10, 10, fill="black", font="Times 20 italic bold",
                        text="Score: " + str(data.score), anchor=NW)
+
+
+
+
+
+#################################
+# Game over mode 
+#################################
+def gameOverKeyPressed(event, data):
+    pass
+
+def gameOverMousePressed(event, data):
+    pass
+
+def gameOverTimerFired(event, data):
+    pass
+
+def gameOverRedrawAll(canvas, data):
+    pass
+
+
 
 ####################################
 # use the run function as-is
