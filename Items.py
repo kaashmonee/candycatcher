@@ -47,4 +47,18 @@ class Fruit:
 
 
 
+# is the circle that bounds the mouth
+class MouthCircle:
+
+    def __init__(self, centerx, centery, radius):
+        self.x = centerx
+        self.y = centery
+        self.radius = radius
+
+    def draw(self, canvas):
+        canvas.create_oval(self.x, self.y, self.x + self.radius,
+                           self.y + self.radius, fill="red")
+
+
+
 

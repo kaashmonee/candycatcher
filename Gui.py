@@ -3,7 +3,7 @@
 # Barebones tkinter animation starter code taken from 112 website
 
 from tkinter import *
-from Items import Fruit
+from Items import Fruit, MouthCircle
 import random
 import os
 import numpy as np
@@ -13,7 +13,7 @@ import dlib
 import imutils
 from imutils.video import VideoStream
 from imutils import face_utils
-import mathematics
+import mathematics as mat
 
 
 ####################################
@@ -21,19 +21,30 @@ import mathematics
 ####################################
 
 def init(data):
+    # image paths for all the items
     data.pathDicts = {"apple": "./assets/apple.png"}
-    # load data.xyz as appropriate
+    
+
+    # list of all the fruits
     data.fruits = []
+
+    # level
     data.level = 0
     # the frequency of the fruit changes with the level
+
+
+    # frequency at which fruits come up given level
     data.levelFruitFrequency = {0: 3000, 1: 4000, 2: 3000, 3: 1000}
     data.mode = "playGame"
     data.score = 0
     data.timePassed = 0
     # initializing gravity
     data.g = 9.8
+
+
     # this list keeps track of all the points that are in the mouth
     data.mouthPoints = []
+    data.mouthCircle = MouthCircle(0, 0, 0)
 
     # delta t
     data.dt = 0.2
@@ -45,13 +56,19 @@ def init(data):
     data.timeBeforeNextFruit = data.levelFruitFrequency[data.level]
     # data.fruits.append(Fruit("apple", data.height + 50, random.r))
 
+
+
+    # VIDEO STUFF
     # getting the video capture element from opencv
+
+
     # data.capture = cv2.VideoCapture(0)
     data.videoStream = VideoStream(0).start()
 
 
     # initializing the dlib facial feature tracker
     data.detector = dlib.get_frontal_face_detector()
+    
     LANDMARKS_CLASSIFIER = "./assets/shape_predictor_68_face_landmarks.dat"
     data.predictor = dlib.shape_predictor(LANDMARKS_CLASSIFIER)
 
@@ -127,7 +144,6 @@ def playGameKeyPressed(event, data):
 
 
 def playGameTimerFired(data):
-    # randomize the time before the next fruit here
 
     # making items fall w/gravity
     for fruit in data.fruits:
@@ -139,11 +155,23 @@ def playGameTimerFired(data):
         fruit.y += dy
         fruit.x += dx
 
+        # DETECT COLLISSION between mouth and fruit
+        # if there is a collission, remove the fruit
+        if (mat.distance(fruit.x, fruit.y, data.mouthCircle.x,
+                         data.mouthCircle.y < data.mouthCircle.radius):
+
+            data.fruits.pop(data.fruits.index(fruit))
+
+
         print("fruit x:", fruit.x, "fruit y:", fruit.y)
 
-        # if the fruit is below the window and the fruit is falling down, get rid
-        # of the fruit
+        # if the fruit is outside the window and its trajectory is moving 
+        # further away, then simply eliminate it
         if fruit.y > data.height and fruit.vy > 0:
+            data.fruits.pop(data.fruits.index(fruit))
+        if fruit.x < 0 and fruit.vx < 0:
+            data.fruits.pop(data.fruits.index(fruit))
+        if fruit.x > data.width and fruits.vx > 0:
             data.fruits.pop(data.fruits.index(fruit))
 
     # after this many milliseconds, create another fruit
@@ -169,11 +197,15 @@ def playGameTimerFired(data):
     # if cv2.waitKey(1) & 0xFF == ord("q"):
     #     sys.exit(0)
 
+
+
+
     # GETTING DLIB FACIAL FEATURES
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     # detecting faces
     rects = data.detector(gray, 0)
+    # for each rectangle in rects, get facial landmarks and locations
     for rect in rects:
         # detect facial landmarks and convert to numpy array
         shape = data.predictor(gray, rect)
@@ -196,6 +228,8 @@ def playGameTimerFired(data):
 
 
 
+
+
     print(data.fruits)
 
 
@@ -208,6 +242,8 @@ def playGameRedrawAll(canvas, data):
     for fruit in data.fruits:
         fruit.drawFruit(canvas)
 
+    # drawing the mouth points on the canvas (in this case, it might not even
+    # be more than just the mouth points)
     for (x, y) in data.mouthPoints:
         canvas.create_oval(data.scaleFactor*x, data.scaleFactor*y, 
                            data.scaleFactor*x+3, data.scaleFactor*y+3, 
