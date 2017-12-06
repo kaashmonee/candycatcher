@@ -106,7 +106,7 @@ class MouthCircle:
             return True
 
     @staticmethod
-    def isFruitInMouth(facePoints, fruit, isMouthOpen, canvas):
+    def isFruitInMouth(facePoints, fruit, isMouthOpen):
         print("This method is at least being called")
         # sys.exit(0)
         # determines if a fruit has collided with the user's mouth
@@ -116,6 +116,8 @@ class MouthCircle:
 
         # isMouthOpen = MouthCircle.isMouthOpen(facePoints)
         # if the mouth is not open, then there are no collissions possible
+        print("is mouth open", isMouthOpen)
+        time.sleep(0.01)
         if not isMouthOpen: 
             return False
         else:
@@ -144,6 +146,7 @@ class MouthCircle:
             # create a circle with diamter left most point to the right most point
             # top left corner is 
             # y-value of 50, xvalue of 48, diamater of 48-54
+            print("GETING TO THE ELSE")
             x = facePoints[48][0]
             y = facePoints[50][1]
             radius = mat.distance(facePoints[48][0], facePoints[48][1],

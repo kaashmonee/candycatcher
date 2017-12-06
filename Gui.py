@@ -234,7 +234,8 @@ def playGameTimerFired(data):
             # print(len(data.facePoints))
             if (len(data.facePoints)):
                 print("Getting here fine")
-                if MouthCircle.isFruitInMouth(data.facePoints, fruit, data.mouthOpen)):
+                # sys.exit(0)
+                if MouthCircle.isFruitInMouth(data.facePoints, fruit, data.mouthOpen):
                     print("This collission happens!")
                     # sys.exit(0)
                     # break
