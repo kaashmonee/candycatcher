@@ -298,7 +298,7 @@ def playGameRedrawAll(canvas, data):
         if (x, y) in data.mouthPoints:
             fill = "blue"
         canvas.create_oval(data.scaleFactor*x, data.scaleFactor*y, 
-                           data.scaleFactor*x+3, data.scaleFactor*y+3, 
+                           data.scaleFactor*x+5, data.scaleFactor*y+5, 
                            fill=fill)
         data.facePoints = []
         data.mouthPoints = []
