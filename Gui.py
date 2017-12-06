@@ -15,6 +15,7 @@ import imutils
 from imutils.video import VideoStream
 from imutils import face_utils
 import mathematics as mat
+# from tkinter import PhotoImage
 
 
 ####################################
@@ -31,6 +32,7 @@ def init(data):
 
     # list of all the fruits
     data.fruits = []
+    data.livesPerLevel = {0: 10, 1: 7, 2: 5, 3: 2}
 
     # level
     data.level = 0
@@ -39,7 +41,7 @@ def init(data):
 
     # frequency at which fruits come up given level
     data.levelFruitFrequency = {0: 3000, 1: 4000, 2: 3000, 3: 1000}
-    data.mode = "playGame"
+    data.mode = "splashScreen"
     data.score = 0
     data.timePassed = 0
     # initializing gravity
@@ -127,21 +129,24 @@ def splashScreenMousePressed(event, data):
 
 
 def splashScreenKeyPressed(event, data):
-    if event.keysym == "KP_Enter":
+    if event.keysym == "p":
         data.mode = "playGame"
 
 
 def splashScreenTimerFired(data):
-    pass
     getAndDrawCameraFeed(data)
+    playGameTimerFired(data)
 
 
 def splashScreenRedrawAll(canvas, data):
     canvas.create_rectangle(0, 0, data.width, data.height, fill="black")
     data.image = PhotoImage(file="./assets/welcometext.png")
+    print("getting here")
     # downsizes the image
     data.image = data.image.subsample(2, 1)
-    canvas.create_image(data.width/2, 100, image = data.image, anchor=CENTER)
+    # print(data.image)
+    canvas.create_image(data.width/2, 100, image = data.image)
+    print("getting here...create_image not working")
     # creating the help and start menu
     buttonYVal = data.height-data.height/10
     canvas.create_rectangle(0, buttonYVal, data.width/2, 
@@ -319,7 +324,8 @@ def makeBoundingCircle(data):
 
 
 def playGameRedrawAll(canvas, data):
-    canvas.create_rectangle(0, 0, data.width, data.height, fill="black")
+    if data.mode == "playGame":
+        canvas.create_rectangle(0, 0, data.width, data.height, fill="black")
     # draw in canvas
     # print("data.fruit", data.fruit)
     # just testing to see that the canvas was working
@@ -343,7 +349,7 @@ def playGameRedrawAll(canvas, data):
                            data.scaleFactor*x+5, data.scaleFactor*y+5, 
                            fill=fill)
         data.facePoints = []
-        # data.mouthPoints = []
+        data.mouthPoints = []
 
     # creating text to update the score
     canvas.create_text(10, 10, fill="black", font="Times 20 italic bold",
@@ -361,7 +367,7 @@ def gameOverMousePressed(event, data):
     pass
 
 
-def gameOverTimerFired(event, data):
+def gameOverTimerFired( data):
     pass
 
 
@@ -407,6 +413,7 @@ def run(width=300, height=300):
     # create the root and the canvas
     root = Tk()
     # setting background
+    root.configure(background="black")
     canvas = Canvas(root, width=data.width, height=data.height)
     canvas.pack()
     # set up events
