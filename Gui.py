@@ -36,7 +36,7 @@ def init(data):
 
     # frequency at which fruits come up given level
     data.levelFruitFrequency = {0: 3000, 1: 4000, 2: 3000, 3: 1000}
-    data.mode = "playGame"
+    data.mode = "splashScreen"
     data.score = 0
     data.timePassed = 0
     # initializing gravity
@@ -122,15 +122,19 @@ def splashScreenMousePressed(event, data):
 
 
 def splashScreenKeyPressed(event, data):
-    pass
+    if event.keysym == "KP_Enter":
+        data.mode = "playGame"
 
 
 def splashScreenTimerFired(data):
     pass
+    getAndDrawCameraFeed(data)
 
 
 def splashScreenRedrawAll(canvas, data):
-    pass
+    canvas.create_rectangle(0, 0, data.width, data.height, fill="black")
+    playGameRedrawAll(canvas, data)
+    
 
 
 ##################################
@@ -229,10 +233,13 @@ def getAndDrawCameraFeed(data):
             # if it is a mouth point, then append to list
             # if ind in range(49, 69):
             data.facePoints.append((x, y))
+            print(ind)
+            if ind in range(48, 69):
+                data.mouthPoints.append((x, y))
         
         print("data face points", data.facePoints, len(data.facePoints))
         # time.sleep(1)
-        data.mouthPoints = data.facePoints[48:]
+        # data.mouthPoints = data.facePoints[48:]
         print("Data.mouth points: ", data.mouthPoints)
         # time.sleep(1)
 
@@ -266,7 +273,7 @@ def playGameRedrawAll(canvas, data):
     # be more than just the mouth points)
     for (x, y) in data.facePoints:
         print("data.mouthPoints redraw all", data.mouthPoints)
-        time.sleep(1)
+        # time.sleep(1)
         fill = "red"
         # if it's the mouth, color it blue
         print("mouth points", data.mouthPoints)
