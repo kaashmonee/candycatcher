@@ -10,6 +10,7 @@ import numpy as np
 import cv2
 import sys
 import dlib
+import time
 import imutils
 from imutils.video import VideoStream
 from imutils import face_utils
@@ -43,6 +44,7 @@ def init(data):
 
 
     # this list keeps track of all the points that are in the mouth
+    data.facePoints = []
     data.mouthPoints = []
     data.mouthCircle = MouthCircle(0, 0, 0)
 
@@ -171,7 +173,7 @@ def playGameTimerFired(data):
             data.fruits.pop(data.fruits.index(fruit))
         if fruit.x < 0 and fruit.vx < 0:
             data.fruits.pop(data.fruits.index(fruit))
-        if fruit.x > data.width and fruits.vx > 0:
+        if fruit.x > data.width and fruit.vx > 0:
             data.fruits.pop(data.fruits.index(fruit))
 
     # after this many milliseconds, create another fruit
@@ -183,7 +185,8 @@ def playGameTimerFired(data):
     print("time before next fruit", data.timeBeforeNextFruit)
     data.timeBeforeNextFruit -= 10
 
-    getAndDrawFeed(data)
+    
+    getAndDrawCameraFeed(data)
 
     # creating the text for the score
     print(data.fruits)
@@ -194,7 +197,7 @@ def playGameTimerFired(data):
 
 
 
-def getAndDrawFeed(data):
+def getAndDrawCameraFeed(data):
         # SHOWING THE VIDEO FEED (WORKS)
     # ret, frame = data.capture.read()
     # reading from video stream -- makes things faster
@@ -225,7 +228,13 @@ def getAndDrawFeed(data):
             # cv2.circle(frame, (x, y), 1, (0, 0, 255), -1)
             # if it is a mouth point, then append to list
             # if ind in range(49, 69):
-            data.mouthPoints.append((x, y))
+            data.facePoints.append((x, y))
+        
+        print("data face points", data.facePoints, len(data.facePoints))
+        # time.sleep(1)
+        data.mouthPoints = data.facePoints[48:]
+        print("Data.mouth points: ", data.mouthPoints)
+        # time.sleep(1)
 
 
     # cv2.imshow("Frame", frame)
@@ -235,9 +244,13 @@ def getAndDrawFeed(data):
         sys.exit(0)
 
 
+def makeBoundingCircle(data):
+    for (x, y) in data.mouthPoints:
+        pass
 
 
-        
+
+
 
 
 def playGameRedrawAll(canvas, data):
@@ -251,10 +264,18 @@ def playGameRedrawAll(canvas, data):
 
     # drawing the mouth points on the canvas (in this case, it might not even
     # be more than just the mouth points)
-    for (x, y) in data.mouthPoints:
+    for (x, y) in data.facePoints:
+        print("data.mouthPoints redraw all", data.mouthPoints)
+        time.sleep(1)
+        fill = "red"
+        # if it's the mouth, color it blue
+        print("mouth points", data.mouthPoints)
+        if (x, y) in data.mouthPoints:
+            fill = "blue"
         canvas.create_oval(data.scaleFactor*x, data.scaleFactor*y, 
                            data.scaleFactor*x+3, data.scaleFactor*y+3, 
-                           fill="red")
+                           fill=fill)
+        data.facePoints = []
         data.mouthPoints = []
 
     # creating text to update the score
