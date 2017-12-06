@@ -76,11 +76,12 @@ class MouthCircle:
         
         # dictionary -- maps each point to point right across from it. 
         # only looks at bottom part of upper lip
-        pointsAcross = {62: 68, 63: 67, 64: 66}
+        pointsAcross = {61: 67, 62: 66, 63: 65}
         
         average = 0
-        for key, val in pointsAcross:
+        for key, val in pointsAcross.items():
             point1 = facePoints[key]
+            # print("Val", val)
             point2 = facePoints[val]
 
             # calculates distance between 2 points

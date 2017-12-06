@@ -254,15 +254,11 @@ def getAndDrawCameraFeed(data):
             # if it is a mouth point, then append to list
             # if ind in range(49, 69):
             data.facePoints.append((x, y))
-            print(ind)
-            if ind in range(48, 69):
-                data.mouthPoints.append((x, y))
-        
-        print("data face points", data.facePoints, len(data.facePoints))
-        # time.sleep(1)
-        # data.mouthPoints = data.facePoints[48:]
-        print("Data.mouth points: ", data.mouthPoints)
-        # time.sleep(1)
+    
+    if len(data.facePoints) != 0:
+        # print("data.facepoitns length", len(data.facePoints))
+        if MouthCircle.isMouthOpen(data.facePoints):
+            print("Mouth is open!")
 
 
     # cv2.imshow("Frame", frame)
@@ -294,11 +290,11 @@ def playGameRedrawAll(canvas, data):
     # drawing the mouth points on the canvas (in this case, it might not even
     # be more than just the mouth points)
     for (x, y) in data.facePoints:
-        print("data.mouthPoints redraw all", data.mouthPoints)
+        # print("data.mouthPoints redraw all", data.mouthPoints)
         # time.sleep(1)
         fill = "red"
         # if it's the mouth, color it blue
-        print("mouth points", data.mouthPoints)
+        # print("mouth points", data.mouthPoints)
         if (x, y) in data.mouthPoints:
             fill = "blue"
         canvas.create_oval(data.scaleFactor*x, data.scaleFactor*y, 
