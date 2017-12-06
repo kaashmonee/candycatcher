@@ -40,7 +40,7 @@ def init(data):
     # data.fruits.append(Fruit("apple", data.height + 50, random.r))
 
     # getting the video capture element from opencv
-    data.capture = cv2.VideoCapture(0)
+    # data.capture = cv2.VideoCapture(0)
     data.videoStream = VideoStream(0).start()
 
 
