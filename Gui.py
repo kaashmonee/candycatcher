@@ -158,7 +158,7 @@ def playGameTimerFired(data):
         # DETECT COLLISSION between mouth and fruit
         # if there is a collission, remove the fruit
         if (mat.distance(fruit.x, fruit.y, data.mouthCircle.x,
-                         data.mouthCircle.y < data.mouthCircle.radius):
+                         data.mouthCircle.y) < data.mouthCircle.radius):
 
             data.fruits.pop(data.fruits.index(fruit))
 
@@ -183,14 +183,23 @@ def playGameTimerFired(data):
     print("time before next fruit", data.timeBeforeNextFruit)
     data.timeBeforeNextFruit -= 10
 
+    getAndDrawFeed(data)
+
     # creating the text for the score
+    print(data.fruits)
 
 
-    # SHOWING THE VIDEO FEED (WORKS)
+
+
+
+
+
+def getAndDrawFeed(data):
+        # SHOWING THE VIDEO FEED (WORKS)
     # ret, frame = data.capture.read()
     # reading from video stream -- makes things faster
-    frame = data.videoStream.read()
-    frame = imutils.resize(frame, width=200)
+    frame=data.videoStream.read()
+    frame=imutils.resize(frame, width=200)
     # print("frame:", frame)
 
     # cv2.imshow("frame", frame)
@@ -201,26 +210,26 @@ def playGameTimerFired(data):
 
 
     # GETTING DLIB FACIAL FEATURES
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    gray=cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     # detecting faces
-    rects = data.detector(gray, 0)
+    rects=data.detector(gray, 0)
     # for each rectangle in rects, get facial landmarks and locations
     for rect in rects:
         # detect facial landmarks and convert to numpy array
-        shape = data.predictor(gray, rect)
-        shape = face_utils.shape_to_np(shape)
+        shape=data.predictor(gray, rect)
+        shape=face_utils.shape_to_np(shape)
 
         # loop over and draw on image
         for ind, (x, y) in enumerate(shape):
-            cv2.circle(frame, (x, y), 1, (0, 0, 255), -1)
+            # cv2.circle(frame, (x, y), 1, (0, 0, 255), -1)
             # if it is a mouth point, then append to list
             # if ind in range(49, 69):
             data.mouthPoints.append((x, y))
 
 
     # cv2.imshow("Frame", frame)
-    key = cv2.waitKey(1) & 0xFF
+    key=cv2.waitKey(1) & 0xFF
 
     if key == ord("q"):
         sys.exit(0)
@@ -228,9 +237,7 @@ def playGameTimerFired(data):
 
 
 
-
-
-    print(data.fruits)
+        
 
 
 def playGameRedrawAll(canvas, data):
