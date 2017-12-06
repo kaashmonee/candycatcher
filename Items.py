@@ -54,6 +54,11 @@ class Fruit:
 # related things in general
 class MouthCircle:
 
+    # tweaking this variable will allow the user to change the amount the user
+    # needs to open their mouth to be detected as an open mouth
+    # the greater this number, the wider the mouth needs to be opened
+    MOUTH_OPEN_MIN_RATIO = 0.35
+
     def __init__(self, centerx, centery, radius):
         self.x = centerx
         self.y = centery
@@ -92,7 +97,7 @@ class MouthCircle:
 
         ratio = average / horizontalDistance
 
-        if ratio < 0.35:
+        if ratio < MouthCircle.MOUTH_OPEN_MIN_RATIO:
             return False
         else:
             return True
