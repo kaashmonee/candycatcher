@@ -131,6 +131,7 @@ def playGameTimerFired(data):
     # after this many milliseconds, create another fruit
     if data.timeBeforeNextFruit <= 0:
         data.fruits.append(Fruit("apple"))
+        # randomly creates the next location of when it should go up
         data.timeBeforeNextFruit = random.randint(0, data.levelFruitFrequency[data.level])
 
     print("time before next fruit", data.timeBeforeNextFruit)
