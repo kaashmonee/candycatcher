@@ -31,6 +31,8 @@ def init(data):
     data.timePassed = 0
     # initializing gravity
     data.g = 9.8
+    # this list keeps track of all the points that are in the mouth
+    data.mouthPoints = []
 
     # delta t
     data.dt = 0.2
@@ -182,10 +184,14 @@ def playGameTimerFired(data):
         shape = face_utils.shape_to_np(shape)
 
         # loop over and draw on image
-        for (x, y) in shape:
+        for ind, (x, y) in enumerate(shape):
             cv2.circle(frame, (x, y), 1, (0, 0, 255), -1)
+            # if it is a mouth point, then append to list
+            if ind in range(49, 69):
+                data.mouthPoints.append((x, y))
 
-    cv2.imshow("Frame", frame)
+
+    # cv2.imshow("Frame", frame)
     key = cv2.waitKey(1) & 0xFF
 
     if key == ord("q"):
@@ -205,6 +211,10 @@ def playGameRedrawAll(canvas, data):
     # draw all the fruits
     for fruit in data.fruits:
         fruit.drawFruit(canvas)
+
+    for (x, y) in data.mouthPoints:
+        canvas.create_oval(x, y, x+3, y+3, fill="red")
+        data.mouthPoints = []
 
     # creating text to update the score
     canvas.create_text(10, 10, fill="black", font="Times 20 italic bold",
