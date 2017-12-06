@@ -13,6 +13,7 @@ import dlib
 import imutils
 from imutils.video import VideoStream
 from imutils import face_utils
+import mathematics
 
 
 ####################################
@@ -36,6 +37,9 @@ def init(data):
 
     # delta t
     data.dt = 0.2
+
+    # scale factor (how much we want the facial features on the canvas blown up)
+    data.scaleFactor = 4
 
     # time to wait before shooting next fruit
     data.timeBeforeNextFruit = data.levelFruitFrequency[data.level]
@@ -166,7 +170,7 @@ def playGameTimerFired(data):
     # ret, frame = data.capture.read()
     # reading from video stream -- makes things faster
     frame = data.videoStream.read()
-    frame = imutils.resize(frame, width=700, height=700)
+    frame = imutils.resize(frame, width=200)
     # print("frame:", frame)
 
     # cv2.imshow("frame", frame)
@@ -187,8 +191,8 @@ def playGameTimerFired(data):
         for ind, (x, y) in enumerate(shape):
             cv2.circle(frame, (x, y), 1, (0, 0, 255), -1)
             # if it is a mouth point, then append to list
-            if ind in range(49, 69):
-                data.mouthPoints.append((x, y))
+            # if ind in range(49, 69):
+            data.mouthPoints.append((x, y))
 
 
     # cv2.imshow("Frame", frame)
@@ -213,7 +217,9 @@ def playGameRedrawAll(canvas, data):
         fruit.drawFruit(canvas)
 
     for (x, y) in data.mouthPoints:
-        canvas.create_oval(x, y, x+3, y+3, fill="red")
+        canvas.create_oval(data.scaleFactor*x, data.scaleFactor*y, 
+                           data.scaleFactor*x+3, data.scaleFactor*y+3, 
+                           fill="red")
         data.mouthPoints = []
 
     # creating text to update the score
