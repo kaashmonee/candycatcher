@@ -1,0 +1,5 @@
+Mouth open/closed detection works...
+But, it doesn't detect the collission between the mouth and the balls.
+Since that is the case, my guess is that the bounding rectangle is too small.
+Try to increase the size of the bounding rectangle and see if that fixes the issue.
+
