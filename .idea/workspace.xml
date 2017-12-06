@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8eaba8e4-6353-429b-8527-4ad55b0a7ec3" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/venv/Gui.py" afterPath="$PROJECT_DIR$/venv/Gui.py" />
-      <change beforePath="$PROJECT_DIR$/venv/Items.py" afterPath="$PROJECT_DIR$/venv/Items.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,11 +16,10 @@
       <file leaf-file-name="Gui.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/venv/Gui.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1452">
-              <caret line="86" column="0" lean-forward="false" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+            <state relative-caret-position="2398">
+              <caret line="129" column="0" lean-forward="false" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
               <folding>
                 <element signature="e#134#155#0" expanded="true" />
-                <marker date="1512524586942" expanded="true" signature="958:993" ph="..." />
               </folding>
             </state>
           </provider>
@@ -80,7 +78,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds">
     <option name="x" value="12" />
     <option name="y" value="26" />
     <option name="width" value="1400" />
@@ -229,7 +227,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="12" y="26" width="1400" height="990" extended-state="1" />
+    <frame x="12" y="26" width="1400" height="990" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2496382" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
@@ -311,11 +309,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/Gui.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1452">
-          <caret line="86" column="0" lean-forward="false" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+        <state relative-caret-position="2398">
+          <caret line="129" column="0" lean-forward="false" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
           <folding>
             <element signature="e#134#155#0" expanded="true" />
-            <marker date="1512524586942" expanded="true" signature="958:993" ph="..." />
           </folding>
         </state>
       </provider>

@@ -15,7 +15,7 @@ def init(data):
     data.pathDicts = {"apple":"./assets/apple.png"}
     # load data.xyz as appropriate
     data.fruits = []
-    data.level = 3
+    data.level = 0
     # the frequency of the fruit changes with the level
     data.levelFruitFrequency = {0: 3000, 1: 4000, 2: 3000, 3: 1000}
     data.mode = "playGame"
