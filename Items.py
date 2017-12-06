@@ -1,5 +1,6 @@
 import random
 from tkinter import *
+import mathematics as mat
 
 class Fruit:
     # fruit class for the game
@@ -36,7 +37,8 @@ class Fruit:
         :param canvas:
         :return:
         """
-        canvas.create_oval(self.x, self.y, self.x+self.width, self.y+self.height, fill="red")
+        canvas.create_oval(self.x, self.y, self.x+self.width, 
+                           self.y+self.height, fill="red")
 
 
     def getHashables(self):
@@ -58,6 +60,40 @@ class MouthCircle:
     def draw(self, canvas):
         canvas.create_oval(self.x, self.y, self.x + self.radius,
                            self.y + self.radius, fill="red")
+
+    @staticmethod
+    def isMouthOpen(facePoints):
+        # determing if the mouthis open or not.
+        # will calculate average distance between top and bottom poitns of mouth
+        # if the ratio is closer to 0, then mouth is closed
+        # if not, then mouth is open
+        leftCorner = facePoints[60]
+        rightCorner = facePoints[64]
+        horizontalDistance = mat.distance(leftCorner[0], leftCorner[1],
+                                          rightCorner[0], rightCorner[1])
+        
+        # dictionary -- maps each point to point right across from it. 
+        # only looks at bottom part of upper lip
+        pointsAcross = {62: 68, 63: 67, 64: 66}
+        
+        average = 0
+        for key, val in pointsAcross:
+            point1 = facePoints[key]
+            point2 = facePoints[val]
+
+            # calculates distance between 2 points
+            distance = mat.distance(point1[0], point1[1], point2[0], point2[1])
+            average += distance
+
+        average /= len(pointsAcross)
+
+        ratio = average / horizontalDistance
+
+        if ratio < 0.5:
+            return False
+        else:
+            return True
+
 
 
 
