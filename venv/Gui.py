@@ -17,7 +17,7 @@ def init(data):
     data.fruits = []
     data.level = 0
     # the frequency of the fruit changes with the level
-    data.levelFruitFrequency = {0: 5000, 1: 4000, 2: 3000, 3: 1000}
+    data.levelFruitFrequency = {0: 3000, 1: 4000, 2: 3000, 3: 1000}
     data.mode = "splashScreen"
     data.score = 0
     data.timePassed = 0
@@ -42,15 +42,36 @@ def init(data):
 
 def mousePressed(event, data):
     # use event.x and event.y
-    pass
+    if data.mode == "splashScreen":
+        splashScreenMousePressed(event, data)
+    if data.mode == "playGame":
+        playGameMousePressed(event, data)
+    if data.mode == "gameOver":
+        gameOverMousePressed(event, data)
 
 def keyPressed(event, data):
     # use event.char and event.keysym
+    if data.mode == "splashScreen":
+        splashScreenKeyPressed(event, data)
+    if data.mode == "playGame":
+        playGameKeyPressed(event, data)
+    if data.mode == "gameOver":
+        gameOverMousePressed(event, data)
     pass
 
 def timerFired(data):
+    if data.mode == "splashScreen":
+        splashScreenTimerFired(data)
+    if data.mode == "playGame":
+        playGameTimerFired(data)
+    if data.mode == "gameOver":
+        gameOverTimerFired(data)
+
+
+def playGameTimerFired(data):
     # randomize the time before the next fruit here
 
+    # making items fall w/gravity
     for fruit in data.fruits:
         # this works because i'm changing the actual fruit object
         dv = data.g * data.dt
@@ -67,10 +88,14 @@ def timerFired(data):
     # after this many milliseconds, create another fruit
     if data.timeBeforeNextFruit <= 0:
         data.fruits.append(Fruit("apple"))
-        data.timeBeforeNextFruit = random.randint(0, 5000)
+        data.timeBeforeNextFruit = random.randint(0, data.levelFruitFrequency[data.level])
 
     print("time before next fruit", data.timeBeforeNextFruit)
     data.timeBeforeNextFruit -= 10
+
+    # creating the text for the score
+
+
 
 
     print(data.fruits)
@@ -83,7 +108,11 @@ def redrawAll(canvas, data):
     # draw all the fruits
     for fruit in data.fruits:
         fruit.drawFruit(canvas)
-    pass
+
+
+    # creating text to update the score
+    canvas.create_text(10, 10, fill="black", font="Times 20 italic bold",
+                       text="Score: " + str(data.score), anchor=NW)
 
 ####################################
 # use the run function as-is

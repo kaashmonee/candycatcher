@@ -9,7 +9,10 @@ class Fruit:
                   "mango": "./assets/mango.png", "grape": "./assets/grape.png",
                   }
 
-    def __init__(self, fruit, x=random.randint(0, 400), y=250):
+    def __init__(self, fruit, x=0, y=750):
+        # random x value for x
+        x = random.randint(0, 400)
+
         # initializing the fruit image and the path of the fruit
         self.imagePath = Fruit.FRUIT_DICT[fruit]
 
