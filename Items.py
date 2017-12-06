@@ -10,9 +10,10 @@ class Fruit:
                   "mango": "./assets/mango.png", "grape": "./assets/grape.png",
                   }
 
-    def __init__(self, fruit, x=0, y=750):
+    def __init__(self, fruit, x=0, y=750, color="red"):
         # random x value for x
         x = random.randint(0, 400)
+        self.color = color
 
         # initializing the fruit image and the path of the fruit
         self.imagePath = Fruit.FRUIT_DICT[fruit]
@@ -38,7 +39,7 @@ class Fruit:
         :return:
         """
         canvas.create_oval(self.x, self.y, self.x+self.width, 
-                           self.y+self.height, fill="red")
+                           self.y+self.height, fill=self.color)
 
 
     def getHashables(self):

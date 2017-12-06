@@ -39,11 +39,11 @@ def init(data):
 
     # frequency at which fruits come up given level
     data.levelFruitFrequency = {0: 3000, 1: 4000, 2: 3000, 3: 1000}
-    data.mode = "splashScreen"
+    data.mode = "playGame"
     data.score = 0
     data.timePassed = 0
     # initializing gravity
-    data.g = 9.8
+    data.g = 13
 
 
     # this list keeps track of all the points that are in the mouth
@@ -55,7 +55,7 @@ def init(data):
     data.dt = 0.2
 
     # scale factor (how much we want the facial features on the canvas blown up)
-    data.scaleFactor = 4
+    data.scaleFactor = 2
 
     # time to wait before shooting next fruit
     data.timeBeforeNextFruit = data.levelFruitFrequency[data.level]
@@ -69,6 +69,7 @@ def init(data):
 
     # data.capture = cv2.VideoCapture(0)
     data.videoStream = VideoStream(0).start()
+    data.sizeOfCapture = 400
 
 
     # initializing the dlib facial feature tracker
@@ -203,7 +204,9 @@ def playGameTimerFired(data):
 
     # after this many milliseconds, create another fruit
     if data.timeBeforeNextFruit <= 0:
-        data.fruits.append(Fruit("apple"))
+        # randomly picking a color and item
+        data.fruits.append(Fruit("apple",
+                           color=data.colors[random.choice(list(data.colors))]))
         # randomly creates the next location of when it should go up
         data.timeBeforeNextFruit = random.randint(0, data.levelFruitFrequency[data.level])
 
@@ -228,7 +231,7 @@ def getAndDrawCameraFeed(data):
     # reading from video stream -- makes things faster
     frame = data.videoStream.read()
     frame = cv2.flip(frame, 1)
-    frame=imutils.resize(frame, width=200)
+    frame=imutils.resize(frame, width=data.sizeOfCapture)
     # print("frame:", frame)
 
     # cv2.imshow("frame", frame)
@@ -279,6 +282,7 @@ def makeBoundingCircle(data):
 
 
 def playGameRedrawAll(canvas, data):
+    canvas.create_rectangle(0, 0, data.width, data.height, fill="black")
     # draw in canvas
     # print("data.fruit", data.fruit)
     # just testing to see that the canvas was working
