@@ -145,7 +145,7 @@ class Rectangle:
         self.y2 = endY
         self.centerX = (startX + endX) / 2
         self.centerY = (startY + endY) / 2
-
+ 
     def pointInRectangle(self, x, y):
         # if x value is greater than the starting x value and the y value
         # is greater than the starting y value, but both are less than their
