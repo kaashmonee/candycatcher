@@ -269,6 +269,7 @@ def getAndDrawCameraFeed(data):
         # print("data.facepoitns length", len(data.facePoints))
         if MouthCircle.isMouthOpen(data.facePoints):
             print("Mouth is open!")
+            # sys.exit(0)
 
 
     # cv2.imshow("Frame", frame)

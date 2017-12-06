@@ -75,7 +75,7 @@ class MouthCircle:
         # will calculate average distance between top and bottom poitns of mouth
         # if the ratio is closer to 0, then mouth is closed
         # if not, then mouth is open
-        print(facePoints)
+        # print(facePoints)
         leftCorner = facePoints[60]
         rightCorner = facePoints[64]
         horizontalDistance = mat.distance(leftCorner[0], leftCorner[1],
