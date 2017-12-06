@@ -43,7 +43,7 @@ def init(data):
     data.score = 0
     data.timePassed = 0
     # initializing gravity
-    data.g = 13
+    data.g = 9.8
 
 
     # this list keeps track of all the points that are in the mouth
@@ -55,7 +55,7 @@ def init(data):
     data.dt = 0.2
 
     # scale factor (how much we want the facial features on the canvas blown up)
-    data.scaleFactor = 2
+    data.scaleFactor = 4
 
     # time to wait before shooting next fruit
     data.timeBeforeNextFruit = data.levelFruitFrequency[data.level]
@@ -69,7 +69,7 @@ def init(data):
 
     # data.capture = cv2.VideoCapture(0)
     data.videoStream = VideoStream(0).start()
-    data.sizeOfCapture = 400
+    data.sizeOfCapture = 200
 
 
     # initializing the dlib facial feature tracker
