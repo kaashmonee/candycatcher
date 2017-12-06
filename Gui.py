@@ -141,10 +141,18 @@ def splashScreenRedrawAll(canvas, data):
     data.image = data.image.subsample(2, 1)
     canvas.create_image(data.width/2, 100, image = data.image, anchor=CENTER)
     # creating the help and start menu
-    canvas.create_rectangle(0, data.height/2, data.width/2, data.height,
-                            fill=data.colors["purple"])
-    canvas.create_rectangle(data.width/2, data.height/2, data.width, data.height,
-                            fill=data.colors["yellow"])
+    buttonYVal = data.height-data.height/10
+    canvas.create_rectangle(0, buttonYVal, data.width/2, 
+                            data.height, fill=data.colors["purple"])
+    canvas.create_rectangle(data.width/2, buttonYVal, 
+                            data.width, data.height, fill=data.colors["yellow"])
+    # play game label
+    canvas.create_text(data.width//4, buttonYVal+data.height/20,
+                       fill="black", text="Play Game", anchor=CENTER,
+                       font="Times 30")
+    canvas.create_text(3 * data.width//4, buttonYVal+data.height/20,
+                       fill="black", text="Help", anchor=CENTER,
+                       font="Times 30")
     # playGameTimerFired(data)
     playGameRedrawAll(canvas, data)
     
@@ -281,6 +289,7 @@ def playGameRedrawAll(canvas, data):
     # draw all the fruits
     for fruit in data.fruits:
         fruit.drawFruit(canvas)
+
 
     # drawing the mouth points on the canvas (in this case, it might not even
     # be more than just the mouth points)
