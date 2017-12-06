@@ -193,6 +193,12 @@ def playGameTimerFired(data):
 
         print("fruit x:", fruit.x, "fruit y:", fruit.y)
 
+        if (len(data.facePoints) != 0 
+            and MouthCircle.isFruitInMouth(data.facePoints, fruit)):
+            print("This collission happens!")
+            break
+            data.fruits.pop(data.fruits.index(fruit))
+
         # if the fruit is outside the window and its trajectory is moving 
         # further away, then simply eliminate it
         if fruit.y > data.height and fruit.vy > 0:
