@@ -226,7 +226,8 @@ def getAndDrawCameraFeed(data):
         # SHOWING THE VIDEO FEED (WORKS)
     # ret, frame = data.capture.read()
     # reading from video stream -- makes things faster
-    frame=data.videoStream.read()
+    frame = data.videoStream.read()
+    frame = cv2.flip(frame, 1)
     frame=imutils.resize(frame, width=200)
     # print("frame:", frame)
 
