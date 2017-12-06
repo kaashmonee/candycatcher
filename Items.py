@@ -50,6 +50,8 @@ class Fruit:
 
 
 # is the circle that bounds the mouth
+# class with all things to do with the circle around the mouth and mouth
+# related things in general
 class MouthCircle:
 
     def __init__(self, centerx, centery, radius):
