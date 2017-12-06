@@ -1,6 +1,7 @@
 import random
 from tkinter import *
 import mathematics as mat
+import time
 
 class Fruit:
     # fruit class for the game
@@ -105,13 +106,15 @@ class MouthCircle:
             return True
 
     @staticmethod
-    def isFruitInMouth(facePoints, fruit):
+    def isFruitInMouth(facePoints, fruit, isMouthOpen, canvas):
+        print("This method is at least being called")
+        # sys.exit(0)
         # determines if a fruit has collided with the user's mouth
         # basically, i want to check if the center of the fruit is within the 
         # bounding rectangle of the person's open mouth. But first and foremost
         # it needs to ensure that the mouth is open, so we will start with that.
 
-        isMouthOpen = MouthCircle.isMouthOpen(facePoints)
+        # isMouthOpen = MouthCircle.isMouthOpen(facePoints)
         # if the mouth is not open, then there are no collissions possible
         if not isMouthOpen: 
             return False
@@ -119,21 +122,38 @@ class MouthCircle:
             # getting bounding box of open mouth region
             # starting point will be the point at the 61st index
             # ending point will the point at the 65th index
-            startX = facePoints[61][0]
-            startY = facePoints[61][1]
-            endX = facePoints[65][0]
-            endY = facePoints[65][1]
+            # startX = facePoints[49][0]
+            # startY = facePoints[49][1]
+            # endX = facePoints[55][0]
+            # endY = facePoints[55][1]
 
-            rect = Rectangle(startX, startY, endX, endY)
-            # creates a rectangle
-            # if the point is in the rectangle, then return True
-            # otherwise, return false
-            if rect.pointInRectangle(fruit.x, fruit.y):
+            # print("testing the starting and ending values", startX, startY, endX, endY); time.sleep(1)
+
+            # rect = Rectangle(startX, startY, endX, endY)
+            # # creates a rectangle
+            # # if the point is in the rectangle, then return True
+            # # otherwise, return false
+            # if rect.pointInRectangle(fruit.x, fruit.y):
+            #     return True
+            # else:
+            #     return False
+
+            # going to create a circle around the mouth and hopefully that 
+            # will work
+
+            # create a circle with diamter left most point to the right most point
+            # top left corner is 
+            # y-value of 50, xvalue of 48, diamater of 48-54
+            x = facePoints[48][0]
+            y = facePoints[50][1]
+            radius = mat.distance(facePoints[48][0], facePoints[48][1],
+                                  facePoints[54][0], facePoints[54][1])/2
+            centerX = x+radius
+            centerY = y+radius
+            if mat.distance(fruit.x, fruit.y, centerX, centerY) <= radius:
                 return True
             else:
                 return False
-            
-
 
 # rectangle class
 class Rectangle:

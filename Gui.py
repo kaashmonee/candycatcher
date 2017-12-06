@@ -50,6 +50,7 @@ def init(data):
     data.facePoints = []
     data.mouthPoints = []
     data.mouthCircle = MouthCircle(0, 0, 0)
+    # data.mouthOpen = False
 
     # delta t
     data.dt = 0.2
@@ -175,29 +176,34 @@ def playGameTimerFired(data):
 
     # making items fall w/gravity
     for fruit in data.fruits:
+
+        # sys.exit()
         # this works because i'm changing the actual fruit object
         dvy = data.g * data.dt
         fruit.vy += dvy
         dy = fruit.vy * data.dt
         dx = fruit.vx * data.dt
+        # sys.exit(0)
+        print("fuck me")
+        # sys.exit(0)
         fruit.y += dy
         fruit.x += dx
+        # sys.exit(0)
 
         # DETECT COLLISSION between mouth and fruit
         # if there is a collission, remove the fruit
-        if (mat.distance(fruit.x, fruit.y, data.mouthCircle.x,
-                         data.mouthCircle.y) < data.mouthCircle.radius):
+        # if (mat.distance(fruit.x, fruit.y, data.mouthCircle.x,
+        #                  data.mouthCircle.y) < data.mouthCircle.radius):
 
-            data.fruits.pop(data.fruits.index(fruit))
+        #     data.fruits.pop(data.fruits.index(fruit))
 
 
-        print("fruit x:", fruit.x, "fruit y:", fruit.y)
+        # print("fruit x:", fruit.x, "fruit y:", fruit.y)
+        # print("GETTING HERE")
+        # sys.exit(0)
 
-        if (len(data.facePoints) != 0 
-            and MouthCircle.isFruitInMouth(data.facePoints, fruit)):
-            print("This collission happens!")
-            break
-            data.fruits.pop(data.fruits.index(fruit))
+
+        # for each fruit, checking if the fruit is in the mouth
 
         # if the fruit is outside the window and its trajectory is moving 
         # further away, then simply eliminate it
@@ -221,6 +227,23 @@ def playGameTimerFired(data):
 
     
     getAndDrawCameraFeed(data)
+
+    for fruit in data.fruits:
+        def checkIfInMouth(data):
+            # print(data.facePoints)
+            # print(len(data.facePoints))
+            if (len(data.facePoints)):
+                print("Getting here fine")
+                if MouthCircle.isFruitInMouth(data.facePoints, fruit, data.mouthOpen)):
+                    print("This collission happens!")
+                    # sys.exit(0)
+                    # break
+                    data.fruits.pop(data.fruits.index(fruit))
+            # time.sleep(1000)
+            print("hello world!")
+            # sys.exit()
+
+        checkIfInMouth(data)
 
     # creating the text for the score
     print(data.fruits)
@@ -265,10 +288,16 @@ def getAndDrawCameraFeed(data):
             # if ind in range(49, 69):
             data.facePoints.append((x, y))
     
+
+    # make sure there is actually a face on the canvas
     if len(data.facePoints) != 0:
         # print("data.facepoitns length", len(data.facePoints))
         if MouthCircle.isMouthOpen(data.facePoints):
             print("Mouth is open!")
+            data.mouthOpen = True
+            # sys.exit(0)
+        else:
+            data.mouthOpen = False
             # sys.exit(0)
 
 
@@ -313,7 +342,7 @@ def playGameRedrawAll(canvas, data):
                            data.scaleFactor*x+5, data.scaleFactor*y+5, 
                            fill=fill)
         data.facePoints = []
-        data.mouthPoints = []
+        # data.mouthPoints = []
 
     # creating text to update the score
     canvas.create_text(10, 10, fill="black", font="Times 20 italic bold",
