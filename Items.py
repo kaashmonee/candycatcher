@@ -103,6 +103,66 @@ class MouthCircle:
         else:
             return True
 
+    @staticmethod
+    def isFruitInMouth(facePoints, fruit):
+        # determines if a fruit has collided with the user's mouth
+        # basically, i want to check if the center of the fruit is within the 
+        # bounding rectangle of the person's open mouth. But first and foremost
+        # it needs to ensure that the mouth is open, so we will start with that.
+
+        isMouthOpen = MouthCircle.isMouthOpen(facePoints)
+        # if the mouth is not open, then there are no collissions possible
+        if not isMouthOpen: 
+            return False
+        else:
+            # getting bounding box of open mouth region
+            # starting point will be the point at the 61st index
+            # ending point will the point at the 65th index
+            startX = facePoints[61][0]
+            startY = facePoints[61][1]
+            endX = facePoints[65][0]
+            endY = facePoints[65][1]
+
+            rect = Rectangle(startX, startY, endX, endY)
+            # creates a rectangle
+            # if the point is in the rectangle, then return True
+            # otherwise, return false
+            if rect.pointInRectangle(fruit.x, fruit.y):
+                return True
+            else:
+                return False
+            
+
+
+# rectangle class
+class Rectangle:
+
+    def __init__(self, startX, startY, endX, endY):
+        self.x1 = startX
+        self.y1 = startY
+        self.x2 = endX
+        self.y2 = endY
+        self.centerX = (startX + endX) / 2
+        self.centerY = (startY + endY) / 2
+
+    def pointInRectangle(self, x, y):
+        # if x value is greater than the starting x value and the y value
+        # is greater than the starting y value, but both are less than their
+        # respective ending values
+        if (x >= self.x1 and x <= self.x2 and 
+            y >= self.y1 and y <= self.y2):
+            return True
+        else:
+            return False
+
+# mouth class to discuss dimensions and locations of mouth
+# it's basically a rectangle
+class Mouth(Rectangle):
+
+
+
+
+
 
 
 
