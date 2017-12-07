@@ -393,7 +393,8 @@ def gameOverRedrawAll(canvas, data):
 # Help Screen mode
 ###################################
 def helpScreenKeyPressed(event, data):
-    pass
+    if event.keysym == "p":
+        data.mode = "playGame"
 
 
 def helpScreenMousePressed(event, data):
@@ -407,13 +408,15 @@ def helpScreenTimerFired(data):
 def helpScreenRedrawAll(canvas, data):
     label = """
 Welcome to fruiteater! The objective of this game is simple: try to catch as
-many fruits as you can within the given time limit!"""
+many fruits as you can within the given time limit!
+
+Press 'p' to get started!"""
     # background
     canvas.create_rectangle(0, 0, data.width, data.height, fill="black")
 
     canvas.create_text(data.width / 2, data.height / 2, text=label, 
                        fill=data.colors["purple"], 
-                       font="Times 20")
+                       font="Times 17")
 
 
 
