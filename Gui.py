@@ -506,16 +506,26 @@ def helpScreenTimerFired(data):
 
 def helpScreenRedrawAll(canvas, data):
     label = """
-Welcome to CandyCatcher! The objective of this game is simple: try to catch as
-many fruits as you can within the given time limit!
+Welcome to CandyCatcher! You can choose between two modes: Classic, and Time Trials.
+In classic mode, the objective is to try to get as many points as possible before
+the number of lives run out. You start with 7 lives. But watch out for red colored candy!
+If you eat red candy, or drop a candy, you will lose a life. 
+But, if you eat green candy, you will gain a life. 
+If you drop candy, you will also lose a life. 
+
+In Time Trials, you will have around 60 or so seconds to catch as much candy
+as you can. 5 points are awarded for catching candy, and 3 points are deducted
+for dropping candy. 
+
+Beware, candy behave like physical balls! They bounce off of walls and each other!
 
 Press 'p' to get started!"""
     # background
     canvas.create_rectangle(0, 0, data.width, data.height, fill="black")
 
     canvas.create_text(data.width / 2, data.height / 2, text=label, 
-                       fill=data.colors["purple"], 
-                       font="Times 17")
+                       fill=data.colors["red"], 
+                       font="Times 14")
 
 
 
