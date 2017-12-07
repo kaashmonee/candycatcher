@@ -32,7 +32,8 @@ def init(data):
     data.pathDicts = {"apple": "./assets/apple.png"}
     # dictionary for different colors and their hex values
     data.colors = {"cyan": "#00FFFF", "purple": "#6206d0",
-                   "yellow": "#f0ff2e", "orange": "#FF6600"}
+                   "yellow": "#f0ff2e", "orange": "#FF6600",
+                   "red": "#ff0000", "green": "#00ff00"}
     
     # 60 seconds in a game
     data.timeLeft = 60
@@ -53,6 +54,7 @@ def init(data):
     data.mode = "splashScreen"
     data.score = 0
     data.timePassed = 0
+    data.lives = 7
     # initializing gravity
     data.g = 9.8
 
@@ -250,7 +252,14 @@ def playGameTimerFired(data):
         if fruitInd in range(len(data.fruits)):
             fruit = data.fruits[fruitInd]
         if fruit.y > data.height and fruit.vy > 0:
-            data.score -= 3
+            # dealing with separate cases if the fruit falls during time trial
+            # and classic modes
+            if data.gameMode == "timeTrial":
+                data.score -= 3
+            elif data.gameMode == "classic":
+                if (fruit.color != "green" and fruit.color != data.colors["green"]
+                    and fruit.color != "red" and data.colors["red"]):
+                    data.lives -= 1
             if fruit in data.fruits:
                 data.fruits.pop(data.fruits.index(fruit))
         if fruit.x <= 0:
@@ -299,7 +308,14 @@ def checkIfInMouth(data):
                     print("This collission happens!")
                     # sys.exit(0)
                     # break
-                    data.score += 5
+                    if data.gameMode == "timeTrial":
+                        data.score += 5
+                    elif data.gameMode == "classic":
+                        # red kills you faster, green can help revive you
+                        if fruit.color == "red" or fruit.color == "#ff0000":
+                            data.lives -= 1
+                        elif fruit.color == "green" or fruit.color == "#00ff00":
+                            data.lives += 1
                     data.fruits.pop(data.fruits.index(fruit))
 
 
@@ -387,14 +403,21 @@ def getAndDrawCameraFeed(data):
 
 def playGameRedrawAll(canvas, data):
     if data.mode == "playGame":
+        # change behaviors for time trial mode vs. classic mode
         canvas.create_rectangle(0, 0, data.width, data.height, fill="black")
-        # draw in canvas
-        # print("data.fruit", data.fruit)
-        # just testing to see that the canvas was working
-        canvas.create_text(5, 10, text="Time left: "+str(data.timeLeft), 
-                        fill="white", font="Times 14", anchor=NW)
-        canvas.create_text(data.width - 5, 10, text="Score: "+str(data.score), 
-                        fill="white", font="Times 14", anchor=NE)
+        if data.gameMode == "timeTrial":
+            # draw in canvas
+            # print("data.fruit", data.fruit)
+            # just testing to see that the canvas was working
+            canvas.create_text(5, 30, text="Time left: "+str(data.timeLeft), 
+                            fill="white", font="Times 14", anchor=NW)
+            canvas.create_text(data.width - 5, 30, text="Score: "+str(data.score), 
+                            fill="white", font="Times 14", anchor=NE)
+        
+        # classic mode behavior
+        elif data.gameMode == "classic":
+            canvas.create_text(data.width - 5, 30, text="Lives " + str(data.lives),
+                               fill="white", font="Times 14", anchor=NE)
 
     # draw all the fruits
     for fruit in data.fruits:
@@ -418,8 +441,8 @@ def playGameRedrawAll(canvas, data):
         data.mouthPoints = []
 
     # creating text to update the score
-    canvas.create_text(10, 10, fill="black", font="Times 20 italic bold",
-                       text="Score: " + str(data.score), anchor=NW)
+    # canvas.create_text(10, 10, fill="white", font="Times 20 italic bold",
+    #                    text="Score: " + str(data.score), anchor=NW)
 
 
 #################################
@@ -513,6 +536,7 @@ def modeScreenMousePressed(event, data):
 
 def modeScreenTimerFired(data):
     # print("Fucking getting here")
+    pass
 
 
 def modeScreenRedrawAll(canvas, data):
