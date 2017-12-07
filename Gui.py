@@ -275,10 +275,15 @@ def playGameTimerFired(data):
 
     
     getAndDrawCameraFeed(data)
+    
+    checkIfInMouth(data)
 
+    # creating the text for the score
+    print(data.fruits)
+
+def checkIfInMouth(data):
     for fruit in data.fruits:
-        def checkIfInMouth(data):
-            # print(data.facePoints)
+        # print(data.facePoints)
             # print(len(data.facePoints))
             if (len(data.facePoints)):
                 print("Getting here fine")
@@ -290,10 +295,6 @@ def playGameTimerFired(data):
                     data.score += 5
                     data.fruits.pop(data.fruits.index(fruit))
 
-        checkIfInMouth(data)
-
-    # creating the text for the score
-    print(data.fruits)
 
 
 def doCollision(fruit1, fruit2, data):

@@ -156,7 +156,7 @@ class MouthCircle:
             radius = mat.distance(facePoints[48][0] * 4, facePoints[48][1] * 4,
                                   facePoints[54][0] * 4, facePoints[54][1] * 4) / 2
             centerX = x+radius
-            centerY = y+radius - 100
+            centerY = y+radius - 50
 
             print("radius", radius, "distance", mat.distance(fruit.x, fruit.y, centerX, centerY))
             if mat.distance(fruit.x, fruit.y, centerX, centerY) <= radius * 1.5:
