@@ -15,6 +15,7 @@ import imutils
 from imutils.video import VideoStream
 from imutils import face_utils
 import mathematics as mat
+# from tkinter import PhotoImage
 
 
 ####################################
@@ -28,9 +29,13 @@ def init(data):
     data.colors = {"cyan": "#00FFFF", "purple": "#6206d0",
                    "yellow": "#f0ff2e"}
     
+    # 60 seconds in a game
+    data.timeLeft = 60
+    
 
     # list of all the fruits
     data.fruits = []
+    data.livesPerLevel = {0: 10, 1: 7, 2: 5, 3: 2}
 
     # level
     data.level = 0
@@ -39,7 +44,7 @@ def init(data):
 
     # frequency at which fruits come up given level
     data.levelFruitFrequency = {0: 3000, 1: 4000, 2: 3000, 3: 1000}
-    data.mode = "playGame"
+    data.mode = "splashScreen"
     data.score = 0
     data.timePassed = 0
     # initializing gravity
@@ -50,6 +55,7 @@ def init(data):
     data.facePoints = []
     data.mouthPoints = []
     data.mouthCircle = MouthCircle(0, 0, 0)
+    # data.mouthOpen = False
 
     # delta t
     data.dt = 0.2
@@ -87,6 +93,8 @@ def mousePressed(event, data):
         playGameMousePressed(event, data)
     if data.mode == "gameOver":
         gameOverMousePressed(event, data)
+    if data.mode == "helpScreen":
+        helpScreenMousePressed(event, data)
 
 
 def keyPressed(event, data):
@@ -96,7 +104,9 @@ def keyPressed(event, data):
     if data.mode == "playGame":
         playGameKeyPressed(event, data)
     if data.mode == "gameOver":
-        gameOverMousePressed(event, data)
+        gameOverKeyPressed(event, data)
+    if data.mode == "helpScreen":
+        helpScreenKeyPressed(event, data)
     pass
 
 
@@ -107,6 +117,8 @@ def timerFired(data):
         playGameTimerFired(data)
     if data.mode == "gameOver":
         gameOverTimerFired(data)
+    if data.mode == "helpScreen":
+        helpScreenTimerFired(data)
 
 
 def redrawAll(canvas, data):
@@ -116,6 +128,8 @@ def redrawAll(canvas, data):
         playGameRedrawAll(canvas, data)
     if data.mode == "gameOver":
         gameOverRedrawAll(canvas, data)
+    if data.mode == "helpScreen":
+        helpScreenRedrawAll(canvas, data)
 
 
 ##################################
@@ -126,21 +140,26 @@ def splashScreenMousePressed(event, data):
 
 
 def splashScreenKeyPressed(event, data):
-    if event.keysym == "KP_Enter":
+    if event.keysym == "p":
         data.mode = "playGame"
+    if event.keysym == "h":
+        data.mode = "helpScreen"
 
 
 def splashScreenTimerFired(data):
-    pass
     getAndDrawCameraFeed(data)
+    playGameTimerFired(data)
 
 
 def splashScreenRedrawAll(canvas, data):
     canvas.create_rectangle(0, 0, data.width, data.height, fill="black")
     data.image = PhotoImage(file="./assets/welcometext.png")
+    print("getting here")
     # downsizes the image
     data.image = data.image.subsample(2, 1)
-    canvas.create_image(data.width/2, 100, image = data.image, anchor=CENTER)
+    # print(data.image)
+    canvas.create_image(data.width/2, 100, image = data.image)
+    print("getting here...create_image not working")
     # creating the help and start menu
     buttonYVal = data.height-data.height/10
     canvas.create_rectangle(0, buttonYVal, data.width/2, 
@@ -175,23 +194,34 @@ def playGameTimerFired(data):
 
     # making items fall w/gravity
     for fruit in data.fruits:
+
+        # sys.exit()
         # this works because i'm changing the actual fruit object
         dvy = data.g * data.dt
         fruit.vy += dvy
         dy = fruit.vy * data.dt
         dx = fruit.vx * data.dt
+        # sys.exit(0)
+        print("fuck me")
+        # sys.exit(0)
         fruit.y += dy
         fruit.x += dx
+        # sys.exit(0)
 
         # DETECT COLLISSION between mouth and fruit
         # if there is a collission, remove the fruit
-        if (mat.distance(fruit.x, fruit.y, data.mouthCircle.x,
-                         data.mouthCircle.y) < data.mouthCircle.radius):
+        # if (mat.distance(fruit.x, fruit.y, data.mouthCircle.x,
+        #                  data.mouthCircle.y) < data.mouthCircle.radius):
 
-            data.fruits.pop(data.fruits.index(fruit))
+        #     data.fruits.pop(data.fruits.index(fruit))
 
 
-        print("fruit x:", fruit.x, "fruit y:", fruit.y)
+        # print("fruit x:", fruit.x, "fruit y:", fruit.y)
+        # print("GETTING HERE")
+        # sys.exit(0)
+
+
+        # for each fruit, checking if the fruit is in the mouth
 
         # if the fruit is outside the window and its trajectory is moving 
         # further away, then simply eliminate it
@@ -215,6 +245,24 @@ def playGameTimerFired(data):
 
     
     getAndDrawCameraFeed(data)
+
+    for fruit in data.fruits:
+        def checkIfInMouth(data):
+            # print(data.facePoints)
+            # print(len(data.facePoints))
+            if (len(data.facePoints)):
+                print("Getting here fine")
+                # sys.exit(0)
+                if MouthCircle.isFruitInMouth(data.facePoints, fruit, data.mouthOpen):
+                    print("This collission happens!")
+                    # sys.exit(0)
+                    # break
+                    data.fruits.pop(data.fruits.index(fruit))
+            # time.sleep(1000)
+            print("hello world!")
+            # sys.exit()
+
+        checkIfInMouth(data)
 
     # creating the text for the score
     print(data.fruits)
@@ -259,10 +307,17 @@ def getAndDrawCameraFeed(data):
             # if ind in range(49, 69):
             data.facePoints.append((x, y))
     
+
+    # make sure there is actually a face on the canvas
     if len(data.facePoints) != 0:
         # print("data.facepoitns length", len(data.facePoints))
         if MouthCircle.isMouthOpen(data.facePoints):
             print("Mouth is open!")
+            data.mouthOpen = True
+            # sys.exit(0)
+        else:
+            data.mouthOpen = False
+            # sys.exit(0)
 
 
     # cv2.imshow("Frame", frame)
@@ -282,11 +337,12 @@ def makeBoundingCircle(data):
 
 
 def playGameRedrawAll(canvas, data):
-    canvas.create_rectangle(0, 0, data.width, data.height, fill="black")
+    if data.mode == "playGame":
+        canvas.create_rectangle(0, 0, data.width, data.height, fill="black")
     # draw in canvas
     # print("data.fruit", data.fruit)
     # just testing to see that the canvas was working
-    canvas.create_rectangle(0, 0, 10, 10)
+    canvas.create_text(10, 10, text=data.timeLeft, fill="white")
     # draw all the fruits
     for fruit in data.fruits:
         fruit.drawFruit(canvas)
@@ -324,12 +380,50 @@ def gameOverMousePressed(event, data):
     pass
 
 
-def gameOverTimerFired(event, data):
+def gameOverTimerFired( data):
     pass
 
 
 def gameOverRedrawAll(canvas, data):
     pass
+
+
+
+
+
+
+###################################
+# Help Screen mode
+###################################
+def helpScreenKeyPressed(event, data):
+    if event.keysym == "p":
+        data.mode = "playGame"
+
+
+def helpScreenMousePressed(event, data):
+    pass
+
+
+def helpScreenTimerFired(data):
+    pass
+
+
+def helpScreenRedrawAll(canvas, data):
+    label = """
+Welcome to fruiteater! The objective of this game is simple: try to catch as
+many fruits as you can within the given time limit!
+
+Press 'p' to get started!"""
+    # background
+    canvas.create_rectangle(0, 0, data.width, data.height, fill="black")
+
+    canvas.create_text(data.width / 2, data.height / 2, text=label, 
+                       fill=data.colors["purple"], 
+                       font="Times 17")
+
+
+
+
 
 
 ####################################
@@ -370,6 +464,7 @@ def run(width=300, height=300):
     # create the root and the canvas
     root = Tk()
     # setting background
+    root.configure(background="black")
     canvas = Canvas(root, width=data.width, height=data.height)
     canvas.pack()
     # set up events

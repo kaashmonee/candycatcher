@@ -1,6 +1,7 @@
 import random
 from tkinter import *
 import mathematics as mat
+import time
 
 class Fruit:
     # fruit class for the game
@@ -75,6 +76,7 @@ class MouthCircle:
         # will calculate average distance between top and bottom poitns of mouth
         # if the ratio is closer to 0, then mouth is closed
         # if not, then mouth is open
+        # print(facePoints)
         leftCorner = facePoints[60]
         rightCorner = facePoints[64]
         horizontalDistance = mat.distance(leftCorner[0], leftCorner[1],
@@ -104,35 +106,61 @@ class MouthCircle:
             return True
 
     @staticmethod
-    def isFruitInMouth(facePoints, fruit):
+    def isFruitInMouth(facePoints, fruit, isMouthOpen):
+        print("This method is at least being called")
+        # sys.exit(0)
         # determines if a fruit has collided with the user's mouth
         # basically, i want to check if the center of the fruit is within the 
         # bounding rectangle of the person's open mouth. But first and foremost
         # it needs to ensure that the mouth is open, so we will start with that.
 
-        isMouthOpen = MouthCircle.isMouthOpen(facePoints)
+        # isMouthOpen = MouthCircle.isMouthOpen(facePoints)
         # if the mouth is not open, then there are no collissions possible
+        print("is mouth open", isMouthOpen)
+        time.sleep(0.01)
         if not isMouthOpen: 
             return False
         else:
             # getting bounding box of open mouth region
             # starting point will be the point at the 61st index
             # ending point will the point at the 65th index
-            startX = facePoints[61][0]
-            startY = facePoints[61][1]
-            endX = facePoints[65][0]
-            endY = facePoints[65][1]
+            # startX = facePoints[49][0]
+            # startY = facePoints[49][1]
+            # endX = facePoints[55][0]
+            # endY = facePoints[55][1]
 
-            rect = Rectangle(startX, startY, endX, endY)
-            # creates a rectangle
-            # if the point is in the rectangle, then return True
-            # otherwise, return false
-            if rect.pointInRectangle(fruit.x, fruit.y):
+            # print("testing the starting and ending values", startX, startY, endX, endY); time.sleep(1)
+
+            # rect = Rectangle(startX, startY, endX, endY)
+            # # creates a rectangle
+            # # if the point is in the rectangle, then return True
+            # # otherwise, return false
+            # if rect.pointInRectangle(fruit.x, fruit.y):
+            #     return True
+            # else:
+            #     return False
+
+            # going to create a circle around the mouth and hopefully that 
+            # will work
+
+            # create a circle with diamter left most point to the right most point
+            # top left corner is 
+            # y-value of 50, xvalue of 48, diamater of 48-54
+            print("GETING TO THE ELSE")
+            # THIS PART IS WHERE IT FUCKS UP
+            x = facePoints[48][0] * 4 # blowing it up by the scale factor! I think this will work...
+            y = facePoints[50][1] * 4 # same deal
+            print("x", x, "y", y)
+            radius = mat.distance(facePoints[48][0] * 4, facePoints[48][1] * 4,
+                                  facePoints[54][0] * 4, facePoints[54][1] * 4) / 2
+            centerX = x+radius
+            centerY = y+radius - 100
+
+            print("radius", radius, "distance", mat.distance(fruit.x, fruit.y, centerX, centerY))
+            if mat.distance(fruit.x, fruit.y, centerX, centerY) <= radius * 1.5:
                 return True
             else:
                 return False
-            
-
 
 # rectangle class
 class Rectangle:
@@ -144,7 +172,7 @@ class Rectangle:
         self.y2 = endY
         self.centerX = (startX + endX) / 2
         self.centerY = (startY + endY) / 2
-
+ 
     def pointInRectangle(self, x, y):
         # if x value is greater than the starting x value and the y value
         # is greater than the starting y value, but both are less than their
@@ -157,7 +185,6 @@ class Rectangle:
 
 # mouth class to discuss dimensions and locations of mouth
 # it's basically a rectangle
-class Mouth(Rectangle):
 
 
 
