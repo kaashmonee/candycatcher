@@ -22,6 +22,11 @@ import mathematics as mat
 # customize these functions
 ####################################
 
+###NEED GLOBAL VARIABLE SO AS TO AVOID RESTARTING THE VIDEO STREAM OVER AND 
+# OVER AGAIN.
+
+# VIDEO_STREAM = VideoStream(0).start()
+
 def init(data):
     # image paths for all the items
     data.pathDicts = {"apple": "./assets/apple.png"}
@@ -82,7 +87,7 @@ def init(data):
 
 
     # data.capture = cv2.VideoCapture(0)
-    data.videoStream = VideoStream(0).start()
+    # data.videoStream = VideoStream(0).start()
     data.sizeOfCapture = 200
 
 
@@ -421,7 +426,10 @@ def playGameRedrawAll(canvas, data):
 # Game over mode
 #################################
 def gameOverKeyPressed(event, data):
-    pass
+    if event.keysym == "p":
+        init(data)
+    elif event.keysym == "q":
+        sys.exit(0)
 
 
 def gameOverMousePressed(event, data):
@@ -548,6 +556,7 @@ def run(width=300, height=300):
     data.width = width
     data.height = height
     data.timerDelay = 10  # milliseconds
+    data.videoStream = VideoStream(0).start()
     init(data)
     # create the root and the canvas
     root = Tk()
