@@ -59,7 +59,12 @@ def init(data):
     # data.mouthOpen = False
 
     # delta t
-    data.dt = 0.2
+    data.dt = 0.4
+
+
+    # milliseconds elapsed
+    data.milliElapsed = 0
+    
 
     # scale factor (how much we want the facial features on the canvas blown up)
     data.scaleFactor = 4
@@ -193,6 +198,19 @@ def playGameKeyPressed(event, data):
 
 def playGameTimerFired(data):
 
+    if data.gameMode == "classic":
+        pass
+
+
+    elif data.gameMode == "timeTrial":
+        data.milliElapsed += data.timerDelay
+        # print(data.milliElapsed)
+        if data.milliElapsed % 500 == 0:
+            if data.timeLeft > 0:
+                data.timeLeft -= 1
+            else:
+                data.mode = "gameOver"
+
     # making items fall w/gravity
     for fruit in data.fruits:
 
@@ -244,6 +262,7 @@ def playGameTimerFired(data):
         # randomly creates the next location of when it should go up
         data.timeBeforeNextFruit = random.randint(0, data.levelFruitFrequency[data.level])
 
+
     print("time before next fruit", data.timeBeforeNextFruit)
     data.timeBeforeNextFruit -= 10
 
@@ -263,9 +282,6 @@ def playGameTimerFired(data):
                     # break
                     data.score += 5
                     data.fruits.pop(data.fruits.index(fruit))
-            # time.sleep(1000)
-            print("hello world!")
-            # sys.exit()
 
         checkIfInMouth(data)
 
