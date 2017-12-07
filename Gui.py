@@ -148,7 +148,7 @@ def splashScreenKeyPressed(event, data):
 
 def splashScreenTimerFired(data):
     getAndDrawCameraFeed(data)
-    playGameTimerFired(data)
+    # playGameTimerFired(data)
 
 
 def splashScreenRedrawAll(canvas, data):
@@ -161,7 +161,7 @@ def splashScreenRedrawAll(canvas, data):
     canvas.create_image(data.width/2, 100, image = data.image)
     print("getting here...create_image not working")
     # creating the help and start menu
-    buttonYVal = data.height-data.height/10
+    buttonYVal = data.height-data.height/3
     canvas.create_rectangle(0, buttonYVal, data.width/2, 
                             data.height, fill=data.colors["purple"])
     canvas.create_rectangle(data.width/2, buttonYVal, 
