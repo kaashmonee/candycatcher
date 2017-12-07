@@ -101,6 +101,8 @@ def mousePressed(event, data):
         gameOverMousePressed(event, data)
     if data.mode == "helpScreen":
         helpScreenMousePressed(event, data)
+    if data.mode == "modeScreen":
+        modeScreenMousePressed(event, data)
 
 
 def keyPressed(event, data):
