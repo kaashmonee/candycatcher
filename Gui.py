@@ -15,6 +15,8 @@ import imutils
 from imutils.video import VideoStream
 from imutils import face_utils
 import mathematics as mat
+# import Leader from Items
+import operator
 # from tkinter import PhotoImage
 
 
@@ -33,6 +35,9 @@ def init(data):
     data.timeLeft = 60
     data.score = 0
     
+    # damping coefficient for collisions -- not perfectly elastic
+    data.dampingCoefficient = 0.9
+    
 
     # list of all the fruits
     data.fruits = []
@@ -45,6 +50,10 @@ def init(data):
 
     # frequency at which fruits come up given level
     data.levelFruitFrequency = {0: 3000, 1: 4000, 2: 3000, 3: 1000}
+    
+    # times timer fired has fired
+    data.timesFired = 0
+
     data.mode = "splashScreen"
     data.score = 0
     data.timePassed = 0
@@ -60,7 +69,11 @@ def init(data):
 
     # delta t
     data.dt = 0.4
-    data.gameMode = "modeScreen"
+    data.gameMode = "timeTrial"
+    
+
+    # leaderboards
+    data.leaders = []
 
 
     # milliseconds elapsed
@@ -208,19 +221,23 @@ def playGameKeyPressed(event, data):
 
 def playGameTimerFired(data):
 
+    data.timesFired += 1
     if data.gameMode == "classic":
         # with lives and shit classic game mode here
         pass
 
 
     elif data.gameMode == "timeTrial":
-        data.milliElapsed += data.timerDelay
         # print(data.milliElapsed)
-        if data.milliElapsed % 500 == 0:
+        if data.timesFired == 50:
             if data.timeLeft > 0:
                 data.timeLeft -= 1
+                data.timesFired = 0
             else:
                 data.mode = "gameOver"
+                # if the user made it onto the leaderboard
+                if data.score >= min(data.leaders.values()):
+                    data.leaders[data.userName] = data.score
 
     # making items fall w/gravity
     for fruit in data.fruits:
@@ -305,11 +322,11 @@ def doCollision(fruit1, fruit2, data):
     tempvy1 = fruit1.vy
 
 
-    fruit1.vx = fruit2.vx
-    fruit1.vy = fruit2.vy
+    fruit1.vx = fruit2.vx * data.dampingCoefficient
+    fruit1.vy = fruit2.vy * data.dampingCoefficient
 
-    fruit2.vx = tempvx1
-    fruit2.vy = tempvy1
+    fruit2.vx = tempvx1 * data.dampingCoefficient
+    fruit2.vy = tempvy1 * data.dampingCoefficient
 
     fruit1.x += fruit1.vx * data.dt
     fruit2.y += fruit2.vy * data.dt
@@ -418,7 +435,10 @@ def playGameRedrawAll(canvas, data):
 # Game over mode
 #################################
 def gameOverKeyPressed(event, data):
-    pass
+    if event.keysym == "p":
+        init()
+    elif event.keysym == "q":
+        sys.exit(0)
 
 
 def gameOverMousePressed(event, data):
@@ -430,7 +450,24 @@ def gameOverTimerFired( data):
 
 
 def gameOverRedrawAll(canvas, data):
-    pass
+    canvas.create_rect(0, 0, data.width, data.height, fill="black")
+    canvas.create_text(0, 10, text="Your score is "+str(data.score)+"!", 
+                        fill="white", anchor=CENTER, font="Times 20")
+    # generating the leaderboard list
+    # sorting the leader based on score
+    sortedLeaders = reversed(sorted(leaderboard.items(), key=operator.itemgetter(1)))
+    for ind, leader in enumerate(sortedLeaders):
+        canvas.create_text(0, 20+10*ind,
+        text=str(ind)+". "+leader[0]+" with a score of "+leader[1])
+        # ensure that only 5 people are on the leaderboared
+        if ind >= 5:
+            break
+
+    canvas.create_text(0, data.height-10, 
+    text="Please press 'p' to play again or 'q' to quit.", anchor=CENTER,
+    font="Times 20")
+
+
 
 
 
