@@ -27,7 +27,7 @@ def init(data):
     data.pathDicts = {"apple": "./assets/apple.png"}
     # dictionary for different colors and their hex values
     data.colors = {"cyan": "#00FFFF", "purple": "#6206d0",
-                   "yellow": "#f0ff2e"}
+                   "yellow": "#f0ff2e", "orange": "#FF6600"}
     
     # 60 seconds in a game
     data.timeLeft = 60
@@ -60,6 +60,7 @@ def init(data):
 
     # delta t
     data.dt = 0.4
+    data.gameMode = "modeScreen"
 
 
     # milliseconds elapsed
@@ -115,7 +116,8 @@ def keyPressed(event, data):
         gameOverKeyPressed(event, data)
     if data.mode == "helpScreen":
         helpScreenKeyPressed(event, data)
-    pass
+    if data.mode == "modeScreen":
+        modeScreenKeyPressed(event, data)
 
 
 def timerFired(data):
@@ -127,6 +129,8 @@ def timerFired(data):
         gameOverTimerFired(data)
     if data.mode == "helpScreen":
         helpScreenTimerFired(data)
+    if data.mode == "modeScreen":
+        modeScreenTimerFired(data)
 
 
 def redrawAll(canvas, data):
@@ -138,18 +142,22 @@ def redrawAll(canvas, data):
         gameOverRedrawAll(canvas, data)
     if data.mode == "helpScreen":
         helpScreenRedrawAll(canvas, data)
+    if data.mode == "modeScreen":
+        modeScreenRedrawAll(canvas, data)
 
 
 ##################################
 # Splash screen mode
 ##################################
+
+
 def splashScreenMousePressed(event, data):
     pass
 
 
 def splashScreenKeyPressed(event, data):
     if event.keysym == "p":
-        data.mode = "playGame"
+        data.mode = "modeScreen"
     if event.keysym == "h":
         data.mode = "helpScreen"
 
@@ -298,7 +306,7 @@ def playGameTimerFired(data):
 
 
 def getAndDrawCameraFeed(data):
-        # SHOWING THE VIDEO FEED (WORKS)
+    # SHOWING THE VIDEO FEED (WORKS)
     # ret, frame = data.capture.read()
     # reading from video stream -- makes things faster
     frame = data.videoStream.read()
@@ -349,11 +357,6 @@ def getAndDrawCameraFeed(data):
 
     if key == ord("q"):
         sys.exit(0)
-
-
-def makeBoundingCircle(data):
-    for (x, y) in data.mouthPoints:
-        pass
 
 
 
@@ -438,7 +441,7 @@ def helpScreenTimerFired(data):
 
 def helpScreenRedrawAll(canvas, data):
     label = """
-Welcome to fruiteater! The objective of this game is simple: try to catch as
+Welcome to CandyCatcher! The objective of this game is simple: try to catch as
 many fruits as you can within the given time limit!
 
 Press 'p' to get started!"""
@@ -448,6 +451,39 @@ Press 'p' to get started!"""
     canvas.create_text(data.width / 2, data.height / 2, text=label, 
                        fill=data.colors["purple"], 
                        font="Times 17")
+
+
+
+
+
+
+
+####################################
+# Mode Screen
+####################################
+
+def modeScreenKeyPressed(event, data):
+    if event.keysym == "p":
+        data.mode = "playGame"
+
+
+def modeScreenMousePressed(event, data):
+    pass
+
+
+def modeScreenTimerFired(data):
+    pass
+
+
+def modeScreenRedrawAll(canvas, data):
+    canvas.create_rect(0, 0, data.width/2, data.height, 
+                       fill=data.colors["purple"])
+
+    canvas.create_rect(data.width/2, 0, data.width, data.height, 
+                       fill=data.colors["orange"])
+
+
+
 
 
 

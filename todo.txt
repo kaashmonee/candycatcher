@@ -1,2 +1,4 @@
 1. sound
 2. leaderboard
+3. game gets harder as levels progress
+4. game mode
