@@ -162,7 +162,6 @@ class MouthCircle:
             else:
                 return False
 
-# rectangle class
 class Rectangle:
 
     def __init__(self, startX, startY, endX, endY):
