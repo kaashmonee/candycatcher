@@ -496,8 +496,15 @@ Press 'p' to get started!"""
 ####################################
 
 def modeScreenKeyPressed(event, data):
-    if event.keysym == "p":
-        data.mode = "playGame"
+    # sets the type of game the user will play
+    if event.keysym == "c":
+        data.gameMode = "classic"
+    elif event.keysym == "t":
+        data.gameMode = "timeTrial"
+    
+
+    # overall game mode
+    data.mode = "playGame"
 
 
 def modeScreenMousePressed(event, data):
@@ -515,9 +522,11 @@ def modeScreenRedrawAll(canvas, data):
     canvas.create_rectangle(data.width/2, 0, data.width, data.height, 
                        fill=data.colors["orange"])
 
-    canvas.create_text(3*data.width/4, data.height/2, fill="white", text="'T' for Time Trial", font="Times 30")
+    canvas.create_text(3*data.width/4, data.height/2, fill="white", 
+                       text="'T' for Time Trial", font="Times 30")
 
-    canvas.create_text(data.width/4, data.height/2, fill="white", text="'C' for Classic", font="Times 30")
+    canvas.create_text(data.width/4, data.height/2, fill="white", 
+                       text="'C' for Classic", font="Times 30")
 
 
 
