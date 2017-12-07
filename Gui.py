@@ -22,6 +22,11 @@ import mathematics as mat
 # customize these functions
 ####################################
 
+###NEED GLOBAL VARIABLE SO AS TO AVOID RESTARTING THE VIDEO STREAM OVER AND 
+# OVER AGAIN.
+
+# VIDEO_STREAM = VideoStream(0).start()
+
 def init(data):
     # image paths for all the items
     data.pathDicts = {"apple": "./assets/apple.png"}
@@ -30,7 +35,7 @@ def init(data):
                    "yellow": "#f0ff2e", "orange": "#FF6600"}
     
     # 60 seconds in a game
-    data.timeLeft = 60
+    data.timeLeft = 1
     data.score = 0
     
 
@@ -60,7 +65,8 @@ def init(data):
 
     # delta t
     data.dt = 0.4
-    data.gameMode = "modeScreen"
+    data.gameMode = "timeTrial"
+    data.timesFired = 0
 
 
     # milliseconds elapsed
@@ -81,7 +87,7 @@ def init(data):
 
 
     # data.capture = cv2.VideoCapture(0)
-    data.videoStream = VideoStream(0).start()
+    # data.videoStream = VideoStream(0).start()
     data.sizeOfCapture = 200
 
 
@@ -214,11 +220,12 @@ def playGameTimerFired(data):
 
 
     elif data.gameMode == "timeTrial":
-        data.milliElapsed += data.timerDelay
+        data.timesFired += 1
         # print(data.milliElapsed)
-        if data.milliElapsed % 500 == 0:
+        if data.timesFired == 50:
             if data.timeLeft > 0:
                 data.timeLeft -= 1
+                data.timesFired = 0
             else:
                 data.mode = "gameOver"
 
@@ -276,9 +283,14 @@ def playGameTimerFired(data):
     
     getAndDrawCameraFeed(data)
 
+    checkIfInMouth(data)
+
+    # creating the text for the score
+    print(data.fruits)
+
+def checkIfInMouth(data):
     for fruit in data.fruits:
-        def checkIfInMouth(data):
-            # print(data.facePoints)
+        # print(data.facePoints)
             # print(len(data.facePoints))
             if (len(data.facePoints)):
                 print("Getting here fine")
@@ -290,10 +302,6 @@ def playGameTimerFired(data):
                     data.score += 5
                     data.fruits.pop(data.fruits.index(fruit))
 
-        checkIfInMouth(data)
-
-    # creating the text for the score
-    print(data.fruits)
 
 
 def doCollision(fruit1, fruit2, data):
@@ -418,7 +426,10 @@ def playGameRedrawAll(canvas, data):
 # Game over mode
 #################################
 def gameOverKeyPressed(event, data):
-    pass
+    if event.keysym == "p":
+        init(data)
+    elif event.keysym == "q":
+        sys.exit(0)
 
 
 def gameOverMousePressed(event, data):
@@ -430,7 +441,14 @@ def gameOverTimerFired( data):
 
 
 def gameOverRedrawAll(canvas, data):
-    pass
+    canvas.create_rectangle(0, 0, data.width, data.height, fill="black")
+    canvas.create_text(data.width/2, 20, text="Game Over", font="Times 40", 
+                       fill="white")
+    canvas.create_text(data.width/2, 120, text="Your score is: "+str(data.score), 
+                       font="Times 40", fill="red")
+
+    canvas.create_text(data.width/2, 250, text="Please press 'p' to play again, or 'q' to quit.", 
+                       font="Times 30", fill="white", anchor=CENTER)
 
 
 
@@ -538,6 +556,7 @@ def run(width=300, height=300):
     data.width = width
     data.height = height
     data.timerDelay = 10  # milliseconds
+    data.videoStream = VideoStream(0).start()
     init(data)
     # create the root and the canvas
     root = Tk()
