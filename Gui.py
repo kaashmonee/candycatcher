@@ -35,7 +35,7 @@ def init(data):
                    "yellow": "#f0ff2e", "orange": "#FF6600"}
     
     # 60 seconds in a game
-    data.timeLeft = 1
+    data.timeLeft = 60
     data.score = 0
     
 
