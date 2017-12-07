@@ -10,7 +10,8 @@ https://www.pyimagesearch.com/2016/10/24/ubuntu-16-04-how-to-install-opencv/
 
 Using a virtual environment is highly recommended.
 
-To install other (non-OpenCV dependencies), please run `pip install -r requirements.txt`.
+To install other (non-OpenCV dependencies), please run `pip install -r requirements.txt`. 
+Again, it is advised that this is done in a virtual environment.
 
 ## Built With
 - Tkinter (for graphics)
@@ -24,4 +25,4 @@ Please do not activate virtual environment before running `code .`. Activate vir
 There was a bug that said the camera was busy...restarting fixed it, but watch out for it.
 
 ### Acknowledgements
-Huge thanks to Adrian Rosebrock from www.pyimagesearch.com. His tutorials were very useful in getting acquainted with OpenCV. 
+Huge thanks to Adrian Rosebrock from www.pyimagesearch.com. His tutorials were very useful in getting acquainted with OpenCV. He can also help with setting up virtual environments quickly and easily, so please visit his site. 
