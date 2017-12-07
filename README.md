@@ -10,6 +10,8 @@ https://www.pyimagesearch.com/2016/10/24/ubuntu-16-04-how-to-install-opencv/
 
 Using a virtual environment is highly recommended.
 
+To install other (non-OpenCV dependencies), please run `pip install -r requirements.txt`.
+
 ## Built With
 - Tkinter (for graphics)
 - OpenCV (for image recognition)
