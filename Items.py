@@ -22,6 +22,8 @@ class Fruit:
         # initializing the fruit width and height
         self.width, self.height = 100, 100
 
+        self.radius = 50
+
         # initializing starting x and y values
         self.x, self.y = x, y
 
