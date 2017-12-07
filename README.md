@@ -1,3 +1,5 @@
+![alt text](assets/logo.png "Logo")
+
 # CandyCatcher
 Term project for 15-112 Fundamentals of Programming and Computer Science offered at Carnegie Mellon University. Catch candy flying candy with your mouth!
 
