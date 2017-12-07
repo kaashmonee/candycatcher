@@ -29,6 +29,9 @@ def init(data):
     data.colors = {"cyan": "#00FFFF", "purple": "#6206d0",
                    "yellow": "#f0ff2e"}
     
+    # 60 seconds in a game
+    data.timeLeft = 60
+    
 
     # list of all the fruits
     data.fruits = []
@@ -339,7 +342,7 @@ def playGameRedrawAll(canvas, data):
     # draw in canvas
     # print("data.fruit", data.fruit)
     # just testing to see that the canvas was working
-    canvas.create_rectangle(0, 0, 10, 10)
+    canvas.create_text(10, 10, text=data.timeLeft, fill="white")
     # draw all the fruits
     for fruit in data.fruits:
         fruit.drawFruit(canvas)
