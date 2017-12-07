@@ -218,6 +218,8 @@ def playGameTimerFired(data):
 
     if data.gameMode == "classic":
         # with lives and shit classic game mode here
+        if data.lives < 0:
+            data.mode = "gameOver"
         pass
 
 
@@ -258,7 +260,7 @@ def playGameTimerFired(data):
                 data.score -= 3
             elif data.gameMode == "classic":
                 if (fruit.color != "green" and fruit.color != data.colors["green"]
-                    and fruit.color != "red" and data.colors["red"]):
+                    and fruit.color != "red" and fruit.color != data.colors["red"]):
                     data.lives -= 1
             if fruit in data.fruits:
                 data.fruits.pop(data.fruits.index(fruit))
@@ -316,6 +318,10 @@ def checkIfInMouth(data):
                             data.lives -= 1
                         elif fruit.color == "green" or fruit.color == "#00ff00":
                             data.lives += 1
+                        # if it's neither a killer or helper, the score goes up
+                        # by 5
+                        else:
+                            data.score += 5
                     data.fruits.pop(data.fruits.index(fruit))
 
 
@@ -416,7 +422,10 @@ def playGameRedrawAll(canvas, data):
         
         # classic mode behavior
         elif data.gameMode == "classic":
-            canvas.create_text(data.width - 5, 30, text="Lives " + str(data.lives),
+            canvas.create_text(5, 30, text="Lives " + str(data.lives),
+                               fill="white", font="Times 14", anchor=NW)
+
+            canvas.create_text(data.width - 5, 30, text="Score: " + str(data.score),
                                fill="white", font="Times 14", anchor=NE)
 
     # draw all the fruits
