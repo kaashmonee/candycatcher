@@ -1,3 +1,5 @@
+![alt text](assets/logo.png "Logo")
+
 # CandyCatcher
 Term project for 15-112 Fundamentals of Programming and Computer Science offered at Carnegie Mellon University. Catch candy flying candy with your mouth!
 
@@ -7,6 +9,11 @@ Please follow this guide to install OpenCV and a virtual environment.
 https://www.pyimagesearch.com/2016/10/24/ubuntu-16-04-how-to-install-opencv/
 
 Using a virtual environment is highly recommended.
+
+## Built With
+- Tkinter (for graphics)
+- OpenCV (for image recognition)
+- dlib (for facial landmark recognition)
 
 ## Usage (For VSCode only)
 Please do not activate virtual environment before running `code .`. Activate virtual environment by running `$ workon cv` in the integrated terminal after opening Code.
