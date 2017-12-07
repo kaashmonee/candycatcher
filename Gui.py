@@ -32,7 +32,7 @@ def init(data):
                    "yellow": "#f0ff2e", "orange": "#FF6600"}
     
     # 60 seconds in a game
-    data.timeLeft = 60
+    data.timeLeft = 1
     data.score = 0
     
     # damping coefficient for collisions -- not perfectly elastic
@@ -73,7 +73,7 @@ def init(data):
     
 
     # leaderboards
-    data.leaders = []
+    data.leaders = dict()
 
 
     # milliseconds elapsed
@@ -236,7 +236,7 @@ def playGameTimerFired(data):
             else:
                 data.mode = "gameOver"
                 # if the user made it onto the leaderboard
-                if data.score >= min(data.leaders.values()):
+                if len(data.leaders) > 0 and data.score >= min(data.leaders.values()):
                     data.leaders[data.userName] = data.score
 
     # making items fall w/gravity
@@ -450,18 +450,21 @@ def gameOverTimerFired( data):
 
 
 def gameOverRedrawAll(canvas, data):
-    canvas.create_rect(0, 0, data.width, data.height, fill="black")
-    canvas.create_text(0, 10, text="Your score is "+str(data.score)+"!", 
+    # creating a leaderboard
+    canvas.create_rectangle(data.width/2, 0, data.width, data.height, fill="black")
+    canvas.create_text(data.width/2, 10, text="Leaderboard", fill="white", font="Times 30", anchor=CENTER)
+    canvas.create_text(data.width/2, 20, text="Your score is "+str(data.score)+"!", 
                         fill="white", anchor=CENTER, font="Times 20")
     # generating the leaderboard list
     # sorting the leader based on score
-    sortedLeaders = reversed(sorted(leaderboard.items(), key=operator.itemgetter(1)))
-    for ind, leader in enumerate(sortedLeaders):
-        canvas.create_text(0, 20+10*ind,
-        text=str(ind)+". "+leader[0]+" with a score of "+leader[1])
-        # ensure that only 5 people are on the leaderboared
-        if ind >= 5:
-            break
+    if len(leaderboard) != 0:
+        sortedLeaders = reversed(sorted(leaderboard.items(), key=operator.itemgetter(1)))
+        for ind, leader in enumerate(sortedLeaders):
+            canvas.create_text(0, 30+10*ind,
+            text=str(ind)+". "+leader[0]+" with a score of "+leader[1])
+            # ensure that only 5 people are on the leaderboared
+            if ind >= 5:
+                break
 
     canvas.create_text(0, data.height-10, 
     text="Please press 'p' to play again or 'q' to quit.", anchor=CENTER,
