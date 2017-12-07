@@ -39,7 +39,7 @@ def init(data):
     data.livesPerLevel = {0: 10, 1: 7, 2: 5, 3: 2}
 
     # level
-    data.level = 0
+    data.level = 3
     # the frequency of the fruit changes with the level
 
 
@@ -224,9 +224,7 @@ def playGameTimerFired(data):
 
     # making items fall w/gravity
     for fruit in data.fruits:
-
-        # sys.exit()
-        # this works because i'm changing the actual fruit object
+        # updates the positions of all the fruits in the list
         dvy = data.g * data.dt
         fruit.vy += dvy
         dy = fruit.vy * data.dt
@@ -238,32 +236,30 @@ def playGameTimerFired(data):
         fruit.x += dx
         # sys.exit(0)
 
-        # DETECT COLLISSION between mouth and fruit
-        # if there is a collission, remove the fruit
-        # if (mat.distance(fruit.x, fruit.y, data.mouthCircle.x,
-        #                  data.mouthCircle.y) < data.mouthCircle.radius):
+    # for now do the collission
 
-        #     data.fruits.pop(data.fruits.index(fruit))
-
-
-        # print("fruit x:", fruit.x, "fruit y:", fruit.y)
-        # print("GETTING HERE")
-        # sys.exit(0)
-
-
-        # for each fruit, checking if the fruit is in the mouth
-
-        # if the fruit is outside the window and its trajectory is moving 
-        # further away, then simply eliminate it
+    for fruitInd in range(len(data.fruits)):
+        fruit
+        if fruitInd in range(len(data.fruits)):
+            fruit = data.fruits[fruitInd]
         if fruit.y > data.height and fruit.vy > 0:
             data.score -= 3
-            data.fruits.pop(data.fruits.index(fruit))
-        if fruit.x < 0 and fruit.vx < 0:
-            data.score -= 3
-            data.fruits.pop(data.fruits.index(fruit))
-        if fruit.x > data.width and fruit.vx > 0:
-            data.score -= 3
-            data.fruits.pop(data.fruits.index(fruit))
+            if fruit in data.fruits:
+                data.fruits.pop(data.fruits.index(fruit))
+        if fruit.x <= 0:
+            # data.score -= 3
+            # data.fruits.pop(data.fruits.index(fruit))
+            fruit.vx = -fruit.vx
+        if fruit.x >= data.width:
+            # data.score -= 3
+            # data.fruits.pop(data.fruits.index(fruit))
+            fruit.vx = -fruit.vx
+        else:
+            for i in range(fruitInd+1, len(data.fruits)):
+                fruit2 = data.fruits[i]
+                if (mat.distance(fruit.x, fruit.y, fruit2.x, fruit2.y)
+                    <= fruit.radius * 2):
+                    doCollision(fruit, fruit2, data)
 
     # after this many milliseconds, create another fruit
     if data.timeBeforeNextFruit <= 0:
@@ -299,6 +295,24 @@ def playGameTimerFired(data):
     # creating the text for the score
     print(data.fruits)
 
+
+def doCollision(fruit1, fruit2, data):
+    collisionPointX = (fruit1.x + fruit2.x) / 2 # getting the collision point
+    collisionPointY = (fruit1.y + fruit2.y) / 2 # same thing for yellow
+
+
+    tempvx1 = fruit1.vx
+    tempvy1 = fruit1.vy
+
+
+    fruit1.vx = fruit2.vx
+    fruit1.vy = fruit2.vy
+
+    fruit2.vx = tempvx1
+    fruit2.vy = tempvy1
+
+    fruit1.x += fruit1.vx * data.dt
+    fruit2.y += fruit2.vy * data.dt
 
 
 
