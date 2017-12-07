@@ -147,6 +147,7 @@ class MouthCircle:
             # top left corner is 
             # y-value of 50, xvalue of 48, diamater of 48-54
             print("GETING TO THE ELSE")
+            # THIS PART IS WHERE IT FUCKS UP
             x = facePoints[48][0]
             y = facePoints[50][1]
             radius = mat.distance(facePoints[48][0], facePoints[48][1],

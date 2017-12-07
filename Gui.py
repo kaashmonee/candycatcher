@@ -90,6 +90,8 @@ def mousePressed(event, data):
         playGameMousePressed(event, data)
     if data.mode == "gameOver":
         gameOverMousePressed(event, data)
+    if data.mode == "helpScreen":
+        helpScreenMousePressed(event, data)
 
 
 def keyPressed(event, data):
@@ -99,7 +101,9 @@ def keyPressed(event, data):
     if data.mode == "playGame":
         playGameKeyPressed(event, data)
     if data.mode == "gameOver":
-        gameOverMousePressed(event, data)
+        gameOverKeyPressed(event, data)
+    if data.mode == "helpScreen":
+        helpScreenKeyPressed(event, data)
     pass
 
 
@@ -110,6 +114,8 @@ def timerFired(data):
         playGameTimerFired(data)
     if data.mode == "gameOver":
         gameOverTimerFired(data)
+    if data.mode == "helpScreen":
+        helpScreenTimerFired(data)
 
 
 def redrawAll(canvas, data):
@@ -119,6 +125,8 @@ def redrawAll(canvas, data):
         playGameRedrawAll(canvas, data)
     if data.mode == "gameOver":
         gameOverRedrawAll(canvas, data)
+    if data.mode == "helpScreen":
+        helpScreenRedrawAll(canvas, data)
 
 
 ##################################
@@ -131,6 +139,8 @@ def splashScreenMousePressed(event, data):
 def splashScreenKeyPressed(event, data):
     if event.keysym == "p":
         data.mode = "playGame"
+    if event.keysym == "h":
+        data.mode = "helpScreen"
 
 
 def splashScreenTimerFired(data):
@@ -373,6 +383,41 @@ def gameOverTimerFired( data):
 
 def gameOverRedrawAll(canvas, data):
     pass
+
+
+
+
+
+
+###################################
+# Help Screen mode
+###################################
+def helpScreenKeyPressed(event, data):
+    pass
+
+
+def helpScreenMousePressed(event, data):
+    pass
+
+
+def helpScreenTimerFired(data):
+    pass
+
+
+def helpScreenRedrawAll(canvas, data):
+    label = """
+Welcome to fruiteater! The objective of this game is simple: try to catch as
+many fruits as you can within the given time limit!"""
+    # background
+    canvas.create_rectangle(0, 0, data.width, data.height, fill="black")
+
+    canvas.create_text(data.width / 2, data.height / 2, text=label, 
+                       fill=data.colors["purple"], 
+                       font="Times 20")
+
+
+
+
 
 
 ####################################
