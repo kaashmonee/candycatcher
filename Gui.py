@@ -199,6 +199,7 @@ def playGameKeyPressed(event, data):
 def playGameTimerFired(data):
 
     if data.gameMode == "classic":
+        # with lives and shit classic game mode here
         pass
 
 
