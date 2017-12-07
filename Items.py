@@ -117,7 +117,7 @@ class MouthCircle:
         # isMouthOpen = MouthCircle.isMouthOpen(facePoints)
         # if the mouth is not open, then there are no collissions possible
         print("is mouth open", isMouthOpen)
-        time.sleep(0.01)
+        # time.sleep(0.01)
         if not isMouthOpen: 
             return False
         else:

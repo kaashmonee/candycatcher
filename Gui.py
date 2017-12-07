@@ -31,6 +31,7 @@ def init(data):
     
     # 60 seconds in a game
     data.timeLeft = 60
+    data.score = 0
     
 
     # list of all the fruits
@@ -167,10 +168,10 @@ def splashScreenRedrawAll(canvas, data):
     canvas.create_rectangle(data.width/2, buttonYVal, 
                             data.width, data.height, fill=data.colors["yellow"])
     # play game label
-    canvas.create_text(data.width//4, buttonYVal+data.height/20,
+    canvas.create_text(data.width//4, buttonYVal+data.height/6,
                        fill="black", text="Play Game", anchor=CENTER,
                        font="Times 30")
-    canvas.create_text(3 * data.width//4, buttonYVal+data.height/20,
+    canvas.create_text(3 * data.width//4, buttonYVal+data.height/6,
                        fill="black", text="Help", anchor=CENTER,
                        font="Times 30")
     # playGameTimerFired(data)
@@ -226,10 +227,13 @@ def playGameTimerFired(data):
         # if the fruit is outside the window and its trajectory is moving 
         # further away, then simply eliminate it
         if fruit.y > data.height and fruit.vy > 0:
+            data.score -= 3
             data.fruits.pop(data.fruits.index(fruit))
         if fruit.x < 0 and fruit.vx < 0:
+            data.score -= 3
             data.fruits.pop(data.fruits.index(fruit))
         if fruit.x > data.width and fruit.vx > 0:
+            data.score -= 3
             data.fruits.pop(data.fruits.index(fruit))
 
     # after this many milliseconds, create another fruit
@@ -257,6 +261,7 @@ def playGameTimerFired(data):
                     print("This collission happens!")
                     # sys.exit(0)
                     # break
+                    data.score += 5
                     data.fruits.pop(data.fruits.index(fruit))
             # time.sleep(1000)
             print("hello world!")
@@ -339,10 +344,14 @@ def makeBoundingCircle(data):
 def playGameRedrawAll(canvas, data):
     if data.mode == "playGame":
         canvas.create_rectangle(0, 0, data.width, data.height, fill="black")
-    # draw in canvas
-    # print("data.fruit", data.fruit)
-    # just testing to see that the canvas was working
-    canvas.create_text(10, 10, text=data.timeLeft, fill="white")
+        # draw in canvas
+        # print("data.fruit", data.fruit)
+        # just testing to see that the canvas was working
+        canvas.create_text(5, 10, text="Time left: "+str(data.timeLeft), 
+                        fill="white", font="Times 14", anchor=NW)
+        canvas.create_text(data.width - 5, 10, text="Score: "+str(data.score), 
+                        fill="white", font="Times 14", anchor=NE)
+
     # draw all the fruits
     for fruit in data.fruits:
         fruit.drawFruit(canvas)
