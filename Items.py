@@ -155,7 +155,7 @@ class MouthCircle:
             print("x", x, "y", y)
             radius = mat.distance(facePoints[48][0] * 4, facePoints[48][1] * 4,
                                   facePoints[54][0] * 4, facePoints[54][1] * 4) / 2
-            centerX = x+radius - 20
+            centerX = x+radius - 30
             centerY = y+radius - 50
 
             print("radius", radius, "distance", mat.distance(fruit.x, fruit.y, centerX, centerY))
@@ -186,12 +186,3 @@ class Rectangle:
 
 # mouth class to discuss dimensions and locations of mouth
 # it's basically a rectangle
-
-
-
-
-
-
-
-
-
