@@ -1,5 +1,5 @@
 # CandyCatcher
-Term project for 15-112 Fundamentals of Programming and Computer Science offered at Carnegie Mellon University.
+Term project for 15-112 Fundamentals of Programming and Computer Science offered at Carnegie Mellon University. Catch candy flying candy with your mouth!
 
 ## Installation (Linux only)
 Please follow this guide to install OpenCV and a virtual environment. 
