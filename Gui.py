@@ -102,13 +102,13 @@ def mousePressed(event, data):
     # use event.x and event.y
     if data.mode == "splashScreen":
         splashScreenMousePressed(event, data)
-    if data.mode == "playGame":
+    elif data.mode == "playGame":
         playGameMousePressed(event, data)
-    if data.mode == "gameOver":
+    elif data.mode == "gameOver":
         gameOverMousePressed(event, data)
-    if data.mode == "helpScreen":
+    elif data.mode == "helpScreen":
         helpScreenMousePressed(event, data)
-    if data.mode == "modeScreen":
+    elif data.mode == "modeScreen":
         modeScreenMousePressed(event, data)
 
 
@@ -116,39 +116,39 @@ def keyPressed(event, data):
     # use event.char and event.keysym
     if data.mode == "splashScreen":
         splashScreenKeyPressed(event, data)
-    if data.mode == "playGame":
+    elif data.mode == "playGame":
         playGameKeyPressed(event, data)
-    if data.mode == "gameOver":
+    elif data.mode == "gameOver":
         gameOverKeyPressed(event, data)
-    if data.mode == "helpScreen":
+    elif data.mode == "helpScreen":
         helpScreenKeyPressed(event, data)
-    if data.mode == "modeScreen":
+    elif data.mode == "modeScreen":
         modeScreenKeyPressed(event, data)
 
 
 def timerFired(data):
     if data.mode == "splashScreen":
         splashScreenTimerFired(data)
-    if data.mode == "playGame":
+    elif data.mode == "playGame":
         playGameTimerFired(data)
-    if data.mode == "gameOver":
+    elif data.mode == "gameOver":
         gameOverTimerFired(data)
-    if data.mode == "helpScreen":
+    elif data.mode == "helpScreen":
         helpScreenTimerFired(data)
-    if data.mode == "modeScreen":
+    elif data.mode == "modeScreen":
         modeScreenTimerFired(data)
 
 
 def redrawAll(canvas, data):
     if data.mode == "splashScreen":
         splashScreenRedrawAll(canvas, data)
-    if data.mode == "playGame":
+    elif data.mode == "playGame":
         playGameRedrawAll(canvas, data)
-    if data.mode == "gameOver":
+    elif data.mode == "gameOver":
         gameOverRedrawAll(canvas, data)
-    if data.mode == "helpScreen":
+    elif data.mode == "helpScreen":
         helpScreenRedrawAll(canvas, data)
-    if data.mode == "modeScreen":
+    elif data.mode == "modeScreen":
         modeScreenRedrawAll(canvas, data)
 
 
@@ -181,7 +181,7 @@ def splashScreenRedrawAll(canvas, data):
     data.image = data.image.subsample(2, 1)
     # print(data.image)
     canvas.create_image(data.width/2, 100, image = data.image)
-    print("getting here...create_image not working")
+    # print("getting here...create_image not working")
     # creating the help and start menu
     buttonYVal = data.height-data.height/3
     canvas.create_rectangle(0, buttonYVal, data.width/2, 
@@ -460,7 +460,8 @@ def gameOverRedrawAll(canvas, data):
 ###################################
 def helpScreenKeyPressed(event, data):
     if event.keysym == "p":
-        data.mode = "playGame"
+        data.mode = "modeScreen"
+        print("data.mode: ", data.mode)
 
 
 def helpScreenMousePressed(event, data):
@@ -504,15 +505,19 @@ def modeScreenMousePressed(event, data):
 
 
 def modeScreenTimerFired(data):
-    pass
+    # print("Fucking getting here")
 
 
 def modeScreenRedrawAll(canvas, data):
-    canvas.create_rect(0, 0, data.width/2, data.height, 
+    canvas.create_rectangle(0, 0, data.width/2, data.height, 
                        fill=data.colors["purple"])
 
-    canvas.create_rect(data.width/2, 0, data.width, data.height, 
+    canvas.create_rectangle(data.width/2, 0, data.width, data.height, 
                        fill=data.colors["orange"])
+
+    canvas.create_text(3*data.width/4, data.height/2, fill="white", text="'T' for Time Trial", font="Times 30")
+
+    canvas.create_text(data.width/4, data.height/2, fill="white", text="'C' for Classic", font="Times 30")
 
 
 
