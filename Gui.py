@@ -30,7 +30,7 @@ def init(data):
                    "yellow": "#f0ff2e", "orange": "#FF6600"}
     
     # 60 seconds in a game
-    data.timeLeft = 60
+    data.timeLeft = 1
     data.score = 0
     
 
@@ -60,7 +60,8 @@ def init(data):
 
     # delta t
     data.dt = 0.4
-    data.gameMode = "modeScreen"
+    data.gameMode = "timeTrial"
+    data.timesFired = 0
 
 
     # milliseconds elapsed
@@ -214,11 +215,12 @@ def playGameTimerFired(data):
 
 
     elif data.gameMode == "timeTrial":
-        data.milliElapsed += data.timerDelay
+        data.timesFired += 1
         # print(data.milliElapsed)
-        if data.milliElapsed % 500 == 0:
+        if data.timesFired == 50:
             if data.timeLeft > 0:
                 data.timeLeft -= 1
+                data.timesFired = 0
             else:
                 data.mode = "gameOver"
 
@@ -275,7 +277,7 @@ def playGameTimerFired(data):
 
     
     getAndDrawCameraFeed(data)
-    
+
     checkIfInMouth(data)
 
     # creating the text for the score
@@ -431,7 +433,14 @@ def gameOverTimerFired( data):
 
 
 def gameOverRedrawAll(canvas, data):
-    pass
+    canvas.create_rectangle(0, 0, data.width, data.height, fill="black")
+    canvas.create_text(data.width/2, 20, text="Game Over", font="Times 40", 
+                       fill="white")
+    canvas.create_text(data.width/2, 120, text="Your score is: "+str(data.score), 
+                       font="Times 40", fill="red")
+
+    canvas.create_text(data.width/2, 250, text="Please press 'p' to play again, or 'q' to quit.", 
+                       font="Times 30", fill="white", anchor=CENTER)
 
 
 
