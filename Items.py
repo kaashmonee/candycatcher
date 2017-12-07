@@ -148,13 +148,16 @@ class MouthCircle:
             # y-value of 50, xvalue of 48, diamater of 48-54
             print("GETING TO THE ELSE")
             # THIS PART IS WHERE IT FUCKS UP
-            x = facePoints[48][0]
-            y = facePoints[50][1]
-            radius = mat.distance(facePoints[48][0], facePoints[48][1],
-                                  facePoints[54][0], facePoints[54][1])/2
+            x = facePoints[48][0] * 4 # blowing it up by the scale factor! I think this will work...
+            y = facePoints[50][1] * 4 # same deal
+            print("x", x, "y", y)
+            radius = mat.distance(facePoints[48][0] * 4, facePoints[48][1] * 4,
+                                  facePoints[54][0] * 4, facePoints[54][1] * 4) / 2
             centerX = x+radius
-            centerY = y+radius
-            if mat.distance(fruit.x, fruit.y, centerX, centerY) <= radius:
+            centerY = y+radius - 100
+
+            print("radius", radius, "distance", mat.distance(fruit.x, fruit.y, centerX, centerY))
+            if mat.distance(fruit.x, fruit.y, centerX, centerY) <= radius * 1.5:
                 return True
             else:
                 return False
