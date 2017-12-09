@@ -268,7 +268,7 @@ def playGameTimerFired(data):
             # data.score -= 3
             # data.fruits.pop(data.fruits.index(fruit))
             fruit.vx = -fruit.vx
-        if fruit.x >= data.width:
+        if fruit.x+2*fruit.radius >= data.width:
             # data.score -= 3
             # data.fruits.pop(data.fruits.index(fruit))
             fruit.vx = -fruit.vx
